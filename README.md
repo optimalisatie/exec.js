@@ -9,15 +9,13 @@ The code is executed in an isolated container which may provide security advanta
 
 # Install
 
-Simply download `exec.min.js` manually or
-
 with npm:
 
-`npm install jsoneditor`
+`npm install exec.js`
 
 with bower:
 
-`bower install jsoneditor`
+`bower install exec.js`
 
 # Usage
 
