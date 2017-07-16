@@ -1,6 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
- * @link https://github.com/optimalisatie/Cancellable-Javascript-Code-Runner/
+ * @link https://github.com/optimalisatie/exec.js
  */
 var exec = function(code) {
     var runner = this,
