@@ -1,17 +1,17 @@
 # Cancellable Javascript Code Runner
 Execute javascript code in a cancellable execution container (iframe) with low latency / high performance.
 
-A high performance and low latency javascript code runner that enables to abort any type of javascript code execution, including promises and Fetch requests.
+A high performance and low latency javascript code runner that enables to abort any type of javascript code execution, including promises and Fetch requests. It supports most browsers including IE.
 
 # Usage
 
 Include `exec.js` in the HTML document.
 
 ```html
-<script src="exec.js" />
+<script src="exec.min.js" />
 ```
 
-Execute javascript code and return data from the code runner using the `returnData()` function. You can return transferable objects such as ArrayBuffer to enable low latency and high performance for large objects. ([more info](https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast))
+Use `var runner = new exec(your code);` to execute javascript code. It returns a promise. You can return data from your code using the `returnData()` function. You can return transferable objects such as ArrayBuffer to enable low latency and high performance processing for large objects. ([more info](https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast))
 
 ### Simple Fetch request
 ```javascript
@@ -30,7 +30,7 @@ setTimeout(function() {
 },5000);
 ```
 
-### Fetch response
+### Advanced Fetch request
 ```javascript
 var runner = new exec(function() {
     fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js')
@@ -89,6 +89,8 @@ setTimeout(function() {
 To cancel code execution, use `runner.stop()`.
 
 ```javascript
-var runner = new exec('your code');
-runner.stop();
+var runner = new exec('setInterval(function() {console.log(123); },100);');
+setTimeout(function() {
+    runner.stop();
+},1000);
 ```
