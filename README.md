@@ -5,6 +5,8 @@ WebWorkers have a startup latency of ~40ms which make them unsuitable for some a
 
 In some modern browsers the code may be executed in a separate thread (multithreading) without the latency disadvantage of WebWorkers and with less code. (see Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes))
 
+The code is executed in an isolated container which may provide security advantages.
+
 # Usage
 
 Include `exec.js` in the HTML document.
