@@ -1,17 +1,17 @@
-# Cancellable-Javascript-Code-Runner
+# Cancellable Javascript Code Runner
 Execute javascript code in a cancellable execution container (iframe) with low latency / high performance.
 
-A javascript code runner that enables to abort execution of promises and Fetch requests.
+A high performance and low latency javascript code runner that enables to abort any type of javascript code execution, including promises and Fetch requests.
 
 # Usage
 
-Include `exec.js` in the document.
+Include `exec.js` in the HTML document.
 
 ```html
 <script src="exec.js" />
 ```
 
-Execute javascript code and return data using the `returnData()` function. You can return transferable objects such as ArrayBuffer to enable low latency and high performance for large objects. ([more info](https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast))
+Execute javascript code and return data from the code runner using the `returnData()` function. You can return transferable objects such as ArrayBuffer to enable low latency and high performance for large objects. ([more info](https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast))
 
 ### Simple Fetch request
 ```javascript
