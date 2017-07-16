@@ -7,6 +7,18 @@ In some modern browsers the code may be executed in a separate thread (multithre
 
 The code is executed in an isolated container which may provide security advantages.
 
+# Install
+
+Simply download `exec.min.js` manually or
+
+with npm:
+
+`npm install jsoneditor`
+
+with bower:
+
+`bower install jsoneditor`
+
 # Usage
 
 Include `exec.js` in the HTML document.
