@@ -27,7 +27,7 @@ Include `exec.js` in the HTML document.
 
 Use `var runner = new exec(your code);` to execute javascript code in an isolated container. You can provide the code as a string or as a function. It returns a promise. 
 
-You can return data from your code using the `returnData()` function. You can return transferable objects such as ArrayBuffer to enable low latency and high performance processing of large objects. ([more info](https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast))
+You can return data from your code using the `returnData(data)` function. You can return transferable objects such as ArrayBuffer to enable low latency and high performance processing of large objects using  `returnData(data, [transferableList])`. ([more info](https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast))
 
 ### Simple Fetch request
 ```javascript

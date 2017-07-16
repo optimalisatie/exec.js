@@ -76,7 +76,7 @@ var exec = function(code) {
 
         // execute code
         d.open();
-        d.write('<script>var returnData = function(data,buffer) { if (typeof buffer !== \'undefined\') { buffer = [buffer]; } parent.postMessage([\'' + id + '\',data],' + JSON.stringify(document.location.href) + ',buffer); };' + code + '</script>');
+        d.write('<script>var returnData = function(data,transferableList) { parent.postMessage([\'' + id + '\',data],' + JSON.stringify(document.location.href) + ',transferableList); };' + code + '</script>');
         d.close();
 
     });
