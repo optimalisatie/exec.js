@@ -58,12 +58,12 @@ var exec = function(code) {
             } catch (e) {}
 
             // remove from document
-            document.body.removeChild(i);
+            try {
+                document.body.removeChild(i);
+            } catch (e) {}
 
             // remove listener
             window[e[1]](E, processData, false);
-
-            console.warn('Exec aborted');
         }
 
         // watch message event
