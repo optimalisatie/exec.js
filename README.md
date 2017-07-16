@@ -5,13 +5,13 @@ A javascript code runner that enables to abort execution of promises and Fetch r
 
 # Usage
 
-Include `exec.js`.
+Include `exec.js` in the document.
 
 ```html
 <script src="exec.js" />
 ```
 
-Execute code and return data using the `returnData()` function. You can return transferable objects such as ArrayBuffer to enable low latency / high performance transfer of large objects. ([more info](https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast))
+Execute javascript code and return data using the `returnData()` function. You can return transferable objects such as ArrayBuffer to enable low latency and high performance for large objects. ([more info](https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast))
 
 ### Simple Fetch request
 ```javascript
@@ -23,6 +23,11 @@ var runner = new exec(function() {
 }).then(function(data) {
     console.log('fetch data',data); // text returned from Fetch request
 });
+
+// timeout in 5 seconds
+setTimeout(function() {
+    runner.stop(); // cancel Fetch request
+},5000);
 ```
 
 ### Fetch response
@@ -72,10 +77,18 @@ var runner = new exec(function() {
         });
 
 });
+
+// timeout in 5 seconds
+setTimeout(function() {
+    runner.stop(); // cancel Fetch request
+},5000);
 ```
 
-### Abort / cancel Fetch request
+### Abort / cancel code execution
+
+To cancel code execution, use `runner.stop()`.
+
 ```javascript
-// ... example code above
+var runner = new exec('your code');
 runner.stop();
 ```
