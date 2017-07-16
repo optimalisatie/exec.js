@@ -1,0 +1,38 @@
+{
+    "name": "exec.js",
+    "title": "Cancellable and Isolated Javascript Code Runner",
+    "version": "0.0.1",
+    "description": "A high performance and low latency javascript code runner that enables to isolate and abort javascript code execution, including setTimeout/setInterval, promises and Fetch requests. It supports most browsers including IE.",
+    "homepage": "https://pagespeed.pro/",
+    "copyright": "Copyright (C) 2017 PageSpeed.pro, Utrecht, NLD",
+    "author": "info@pagespeed.pro <info@pagespeed.pro> (pagespeed.pro)",
+    "engines": {
+        "node": "*"
+    },
+    "dependencies": {},
+    "devDependencies": {},
+    "main": "exec.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/optimalisatie/exec.js.git"
+    },
+    "keywords": [
+        "multithreading",
+        "javascript",
+        "executor",
+        "isolated",
+        "container",
+        "runner",
+        "cancel",
+        "cancellable",
+        "abort",
+        "promise"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/optimalisatie/exec.js/issues"
+    }
+}
