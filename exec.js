@@ -47,7 +47,7 @@ var exec = function(code) {
         // stop code execution
         stop = function() {
             try {
-                var frm = window.frames['exec' + id];
+                var frm = window.frames[id];
 
                 // IE
                 if (typeof frm.stop === 'undefined') {
@@ -55,9 +55,10 @@ var exec = function(code) {
                 } else {
                     frm.stop();
                 }
-
-                document.body.removeChild(i);
             } catch (e) {}
+
+            // remove from document
+            document.body.removeChild(i);
 
             // remove listener
             window[e[1]](E, processData, false);
