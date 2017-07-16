@@ -25,7 +25,7 @@ Include `exec.js` in the HTML document.
 <script src="exec.min.js" />
 ```
 
-Use `var runner = new exec(your code);` to execute javascript code in an isolated container. You can provide the code as a string or function. It returns a promise with the extra method `runner.stop()` that instantly aborts execution and clears memory. 
+Use `var runner = new exec(your code);` to execute javascript code in an isolated container. You can provide the code as a string or as a function. It returns a promise with the extra method `runner.stop()` that instantly aborts execution and clears memory consumed by the script. 
 
 You can return data from your code using the `returnData(data)` function. You can return transferable objects such as ArrayBuffer using `returnData(data, [transferableList])`. ([more info](https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast))
 
