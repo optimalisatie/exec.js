@@ -18,10 +18,14 @@ Use `var runner = new exec(your code);` to execute javascript code. It returns a
 var runner = new exec(function() {
     fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js')
         .then(function(response) {
-            // return text
-            response.text().then(function(text) { returnData(text); });
+            response.text().then(function(text) {
+                returnData(text);
+            });
+        }).catch(function(err) {
+            console.log(err.message);
+        });
 }).then(function(data) {
-    console.log('fetch data',data); // text returned from Fetch request
+    console.log('fetch result', data);
 });
 
 // timeout in 5 seconds
