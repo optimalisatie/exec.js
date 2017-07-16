@@ -89,7 +89,7 @@ setTimeout(function() {
 To cancel code execution, use `runner.stop()`.
 
 ```javascript
-var runner = new exec('setInterval(function() {console.log(123); },100);');
+var runner = new exec('setInterval(function() {console.log(123);},100);');
 setTimeout(function() {
     runner.stop();
 },1000);
