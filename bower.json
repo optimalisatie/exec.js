@@ -1,29 +1,30 @@
 {
-  "name": "exec.js",
-  "description": "A high performance and low latency javascript code runner that enables to isolate and abort javascript code execution, including setTimeout/setInterval, promises and Fetch requests. It supports most browsers including IE.",
-  "main": "exec.js",
-  "authors": [
-    "info@pagespeed.pro <info@pagespeed.pro> (pagespeed.pro)"
-  ],
-  "license": "MIT",
-  "keywords": [
-    "multithreading",
-    "javascript",
-    "executor",
-    "isolated",
-    "container",
-    "runner",
-    "cancel",
-    "cancellable",
-    "abort",
-    "promise"
-  ],
-  "homepage": "https://github.com/optimalisatie/exec.js",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ]
+    "name": "exec.js",
+    "version": "0.0.2",
+    "description": "A high performance and low latency javascript code runner that enables to isolate and abort javascript code execution, including setTimeout/setInterval, promises and Fetch requests. It supports most browsers including IE.",
+    "main": "exec.js",
+    "authors": [
+        "info@pagespeed.pro <info@pagespeed.pro> (pagespeed.pro)"
+    ],
+    "license": "MIT",
+    "keywords": [
+        "multithreading",
+        "javascript",
+        "executor",
+        "isolated",
+        "container",
+        "runner",
+        "cancel",
+        "cancellable",
+        "abort",
+        "promise"
+    ],
+    "homepage": "https://github.com/optimalisatie/exec.js",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
 }
