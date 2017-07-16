@@ -3,8 +3,6 @@ A high performance and low latency javascript code runner that enables to abort 
 
 WebWorkers have a startup latency of ~40ms which make them unsuitable for some applications. This code runner does not have significant latency or overhead and it's 690 bytes compressed.
 
-For IE a [Promise polyfill](https://github.com/taylorhakes/promise-polyfill) is required. The code could be modified to use a callback instead of a promise.
-
 # Usage
 
 Include `exec.js` in the HTML document.
@@ -96,3 +94,7 @@ setTimeout(function() {
     runner.stop();
 },1000);
 ```
+
+## Internet Explorer
+
+For IE a [Promise polyfill](https://github.com/taylorhakes/promise-polyfill) is required. The code could be modified to use a callback instead of a promise.
