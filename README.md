@@ -1,7 +1,7 @@
 # Cancellable Javascript Code Runner
 Execute javascript code in a cancellable execution container (iframe) with low latency / high performance.
 
-A high performance and low latency javascript code runner that enables to abort any type of javascript code execution, including promises and Fetch requests. It supports most browsers including IE.
+A high performance and low latency javascript code runner that enables to abort javascript code execution, including promises and Fetch requests. It supports most browsers including IE.
 
 # Usage
 
