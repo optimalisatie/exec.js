@@ -1,4 +1,4 @@
-// simple ping pong code used by both exec.js and WebWorker
+// more heavy workload used by both exec.js and WebWorker
 var PINGCODE = 'onmessage=function pong(){for (var i=0; i<999999;i++){var y = Math.pow(i,i);} var baseNumber = 3;var result = 0;for (var i = Math.pow(baseNumber, 10); i >= 0; i--) {result += Math.atan(i) * Math.tan(i);}; postMessage(y);}';
 
 // exec.js round trip / ping test
