@@ -1,7 +1,7 @@
 # Cancellable Javascript Code Runner
 A high performance and low latency javascript code runner that enables to isolate and abort javascript code execution, including setTimeout/setInterval, promises and Fetch requests. It supports most browsers including IE.
 
-WebWorkers have a startup latency of ~40ms which make them unsuitable for some applications. This code runner does not have a significant latency or overhead and it's 652 bytes compressed.
+WebWorkers have a startup latency of ~40ms which make them unsuitable for some applications. This code runner does not have a significant latency or overhead and it's 644 bytes compressed.
 
 In some modern browsers (Chrome 55+) the code is executed in a separate thread (multithreading) without the latency disadvantage of WebWorkers, with less code and with full access to DOM. (see Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes))
 
