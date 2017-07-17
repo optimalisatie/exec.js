@@ -40,6 +40,7 @@ var exec = function(code, callback) {
         if (stopped) {
             return;
         }
+        stopped = true;
 
         try {
             var frm = window.frames[id];
