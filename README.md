@@ -22,7 +22,7 @@ with bower:
 Include `exec.js` in the HTML document.
 
 ```html
-<script src="exec.min.js" />
+<script src="exec.min.js"></script>
 ```
 
 Use `var runner = new exec(your code);` to execute javascript code in an isolated container. You can provide the code as a string or as a function. It returns an object with the methods `runner.post()` to post data to the container and `runner.stop()` that instantly aborts execution and clears memory. 
