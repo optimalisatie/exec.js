@@ -1,7 +1,7 @@
 // simple ping code used by both exec.js and WebWorker
 var PINGCODE = 'onmessage=function(){postMessage(null);}';
 
-// ping test
+// exec.js round trip / ping test
 var execTest = function(oncomplete) {
 
     var n = 0;
@@ -27,8 +27,7 @@ var execTest = function(oncomplete) {
     runner.post(null);
 }
 
-
-// web worker
+// web worker round trip / ping test
 var wwTest = function(oncomplete) {
 
     var n = 0;
