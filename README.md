@@ -132,9 +132,7 @@ setTimeout(function() {
 
 ### Multithreading with access to DOM
 
-To access the DOM, use `parent.document` ([info](https://www.w3schools.com/jsref/prop_win_parent.asp)). Multithreading (OOPIF) is enabled by default in Chrome 55+ and some earlier versions of Chrome. Information about multithreading in Firefox and other browsers is unavailable. Testing is needed.
-
-DOM access is available in all browsers.
+To access the DOM, use `parent.document` ([info](https://www.w3schools.com/jsref/prop_win_parent.asp)). Multithreading (OOPIF) is enabled by default in Chrome 55+ and some earlier versions of Chrome. Information about multithreading in Firefox and other browsers is unavailable. Testing is needed. DOM access is available in all browsers.
 
 ```javascript
 var runner = new exec('setInterval(function() {var h = parent.document.createElement(\'h1\');h.innerHTML = \'test\';parent.document.body.insertBefore(h, parent.document.body.firstChild);},100);');
