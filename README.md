@@ -3,7 +3,7 @@ A high performance and low latency javascript code runner that enables to isolat
 
 WebWorkers have a startup latency of ~40ms which make them unsuitable for some applications. This code runner does not have a significant latency or overhead and it's 656 bytes compressed.
 
-In some modern browsers (Chrome 55+) the code is executed in a separate thread (multithreading) without the latency disadvantage of WebWorkers and with less code. (see Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes))
+In some modern browsers (Chrome 55+) the code is executed in a separate thread (multithreading) without the latency disadvantage of WebWorkers, with less code and with full access to DOM (`parent.document`). (see Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes))
 
 The code is executed in an isolated container which may provide security advantages.
 
@@ -27,7 +27,7 @@ Include `exec.js` in the HTML document.
 
 Use `var runner = new exec(your code);` to execute javascript code in an isolated container. You can provide the code as a string or as a function. It returns a promise with the extra method `runner.stop()` that instantly aborts execution and clears memory. 
 
-You can return data from your code using the `returnData(data)` function. You can return transferable objects such as ArrayBuffer using `returnData(data, [transferableList])`. ([more info](https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast)) `exec.js` may provide multithreading with better performance than WebWorkers and with full access to DOM (`parent.document`).
+You can return data from your code using the `returnData(data)` function. You can return transferable objects such as ArrayBuffer using `returnData(data, [transferableList])`. ([more info](https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast))
 
 ### Simple Fetch request
 ```javascript
