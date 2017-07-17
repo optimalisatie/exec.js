@@ -8,5 +8,5 @@ Further optimization may enable exec.js to achieve the same round trip performan
 
 ![WebWorker vs Exec.js](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/webworker-vs-execjs-ping.png)
 
-In Chrome 55+ and maybe other browsers exec.js is multithreading.
+In Chrome 55+ exec.js is multithreading with full access to DOM.
 
