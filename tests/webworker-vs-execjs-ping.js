@@ -1,5 +1,5 @@
 // simple ping code used by both exec.js and WebWorker
-var PINGCODE = 'onmessage=function(){postMessage(null);}';
+var PINGCODE = 'onmessage=function pong(){postMessage(null);}';
 
 // exec.js round trip / ping test
 var execTest = function(oncomplete) {
@@ -9,7 +9,9 @@ var execTest = function(oncomplete) {
 
     console.time('exec.js ping ' + ping);
 
-    var runner = new exec(PINGCODE, function() {
+    // start exec.js
+    var runner = new exec(PINGCODE, function onmessage() {
+
         console.timeEnd('exec.js ping ' + ping);
 
         if (n < 10) {
@@ -24,6 +26,8 @@ var execTest = function(oncomplete) {
             }
         }
     });
+
+    // send first ping
     runner.post(null);
 }
 
@@ -50,9 +54,11 @@ var wwTest = function(oncomplete) {
         blob = blob.getBlob('text/javascript');
     }
 
+    // start WebWorker
     var worker = new Worker(URL.createObjectURL(blob));
 
     worker.onmessage = function(e) {
+
         console.timeEnd('ww ping ' + ping);
 
         if (n < 10) {
@@ -68,6 +74,7 @@ var wwTest = function(oncomplete) {
         }
     }
 
+    // send first ping
     worker.postMessage(null);
 };
 
