@@ -3,7 +3,7 @@ A high performance and low latency javascript code runner that enables to isolat
 
 WebWorkers have a startup latency of ~40ms which make them unsuitable for some applications. This code runner does not have a significant latency or overhead and it's 656 bytes compressed.
 
-In some modern browsers the code may be executed in a separate thread (multithreading) without the latency disadvantage of WebWorkers and with less code. (see Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes))
+In some modern browsers (Chrome 55+) the code is executed in a separate thread (multithreading) without the latency disadvantage of WebWorkers and with less code. (see Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes))
 
 The code is executed in an isolated container which may provide security advantages.
 
