@@ -1,12 +1,13 @@
 /**
  * Cancellable Javascript Code Runner
- * @version 1.0.5
+ * @version 1.0.6
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
 
     // container
-    var c, f = document.createElement('iframe');
+    var c, document = window.document,
+        f = document.createElement('iframe');
 
     // constructor
     var exec = function(code, callback) {
@@ -91,7 +92,7 @@
             if (!c) {
                 c = document.createElement('div');
                 c.style.display = 'none';
-                document.body.appendChild(c);
+                document.body.insertBefore(c, document.body.firstChild)
             }
             i = f.cloneNode(false);
             i.name = id;
