@@ -1,6 +1,6 @@
 {
     "name": "exec.js",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "A high performance and low latency javascript code runner that enables to isolate and abort javascript code execution, including setTimeout/setInterval, promises and Fetch requests. It supports most browsers including IE.",
     "main": "exec.js",
     "authors": [
