@@ -1,5 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
+ * @version 1.0.2
  * @link https://github.com/optimalisatie/exec.js
  */
 var exec = function(code, callback) {
