@@ -1,6 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
- * @version 1.0.6
+ * @version 1.0.7
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -111,7 +111,7 @@
 
             // execute code
             d.open();
-            d.write('<script>(function() {var ' + o + ';var P=function(){if(' + o + '){P = ' + o + ';}' + o + '.apply(this,arguments);};var ' + p + '=function(d,t){parent.' + p + '(["' + id + '",d],"*",t);};' + code + ';window["' + e[0] + '"]("' + E + '",P,false);})();</scr' + 'ipt>');
+            d.write('<script>(function() {var ' + o + ';var ' + p + '=function(d,t){parent.' + p + '(["' + id + '",d],"*",t);};' + code + ';if (' + o + ') {window["' + e[0] + '"]("' + E + '",' + o + ',false);}})();</scr' + 'ipt>');
             d.close();
 
             // process queued posts
