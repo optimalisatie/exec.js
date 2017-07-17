@@ -80,7 +80,7 @@ var exec = function(code, callback) {
 
     // execute code
     d.open();
-    d.write('<script>(function() {var ' + o + ';var document=parent.document;var P=function(){if(' + o + '){' + o + '.apply(this,arguments);}};var ' + p + '=function(d,t){parent.' + p + '([\'' + id + '\',d],' + JSON.stringify(document.location.href) + ',t);};' + code + ';window[\'' + e[0] + '\'](\'' + E + '\',P,false);})();</script>');
+    d.write('<script>(function() {var ' + o + ';var P=function(){if(' + o + '){' + o + '.apply(this,arguments);}};var ' + p + '=function(d,t){parent.' + p + '([\'' + id + '\',d],' + JSON.stringify(document.location.href) + ',t);};' + code + ';window[\'' + e[0] + '\'](\'' + E + '\',P,false);})();</script>');
     d.close();
 };
 

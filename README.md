@@ -111,7 +111,7 @@ runner.post('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.j
 
 // another fetch request in idle container
 setTimeout(function() {
-    runner.post('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');    
+    runner.post('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');
 }, 1000);
 ```
 
