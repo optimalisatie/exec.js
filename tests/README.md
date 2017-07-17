@@ -1,4 +1,4 @@
-# WebWorker vs exec.js Round Trip / Ping Test
+# WebWorker vs exec.js Round Trip Test
 
 The test `webworker-vs-execjs-ping.js` compares the round trip time for a WebWorker and exec.js. 
 
