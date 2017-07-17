@@ -3,7 +3,7 @@
  * @version 1.0.2
  * @link https://github.com/optimalisatie/exec.js
  */
-var exec = (function(window) {
+(function(window) {
 
     // container
     var document = window.document,
@@ -75,14 +75,18 @@ var exec = (function(window) {
         };
 
         // post data to container
+        var s;
         this.post = function(data, transferableList) {
+
+            if (!s) {
+                s = i.contentWindow[p].bind(i.contentWindow);
+            }
 
             // stopped
             if (stopped) {
                 return;
             }
-
-            i.contentWindow[p](data, document.location.href, transferableList);
+            s(data, "*", transferableList);
         };
 
         // watch message event
@@ -93,7 +97,7 @@ var exec = (function(window) {
 
         // execute code
         d.open();
-        d.write('<script>(function() {var ' + o + ';var P=function(){if(' + o + '){' + o + '.apply(this,arguments);}};var ' + p + '=function(d,t){parent.' + p + '([\'' + id + '\',d],' + JSON.stringify(document.location.href) + ',t);};' + code + ';window[\'' + e[0] + '\'](\'' + E + '\',P,false);})();</script>');
+        d.write('<script>(function() {var ' + o + ';var P=function(){if(' + o + '){P = ' + o + ';}' + o + '.apply(this,arguments);};var ' + p + '=function(d,t){parent.' + p + '(["' + id + '",d],"*",t);};' + code + ';window["' + e[0] + '"]("' + E + '",P,false);})();</script>');
         d.close();
     };
 
@@ -107,5 +111,6 @@ var exec = (function(window) {
         this.stop();
     };
 
-    return exec;
+    // define public constructor
+    window['exec'] = exec;
 })(window);
