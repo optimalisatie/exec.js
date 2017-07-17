@@ -3,7 +3,7 @@ A high performance and low latency javascript code runner that enables to isolat
 
 WebWorkers have a startup latency of ~40ms which make them unsuitable for some applications. This code runner does not have a significant latency or overhead and it's 656 bytes compressed.
 
-In some modern browsers (Chrome 55+) the code is executed in a separate thread (multithreading) without the latency disadvantage of WebWorkers, with less code and with full access to DOM (`parent.document`). See Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes) for more information.
+In some modern browsers (Chrome 55+) the code is executed in a separate thread (multithreading) without the latency disadvantage of WebWorkers, with less code and with full access to DOM. (see Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes))
 
 The code is executed in an isolated container which may provide security advantages.
 
@@ -110,6 +110,17 @@ To cancel code execution, use `runner.stop()`.
 
 ```javascript
 var runner = new exec('setInterval(function() {console.log(123);},100);');
+setTimeout(function() {
+    runner.stop();
+},1000);
+```
+
+### Multithreading with access to DOM
+
+To access the DOM, use `parent.document` ([info](https://www.w3schools.com/jsref/prop_win_parent.asp)).
+
+```javascript
+var runner = new exec('setInterval(function() {var h = parent.document.createElement(\'h1\');h.innerHTML = \'test\';parent.document.body.insertBefore(h, parent.document.body.firstChild);},100);');
 setTimeout(function() {
     runner.stop();
 },1000);
