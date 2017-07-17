@@ -25,23 +25,25 @@ Include `exec.js` in the HTML document.
 <script src="exec.min.js" />
 ```
 
-Use `var runner = new exec(your code);` to execute javascript code in an isolated container. You can provide the code as a string or as a function. It returns a promise with the extra method `runner.stop()` that instantly aborts execution and clears memory. 
+Use `var runner = new exec(your code);` to execute javascript code in an isolated container. You can provide the code as a string or as a function. It returns an object with the methods `runner.post()` to post data to the container and `runner.stop()` that instantly aborts execution and clears memory. 
 
-You can return data from your code using the `returnData(data)` function. You can return transferable objects such as ArrayBuffer using `returnData(data, [transferableList])`. ([more info](https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast))
+You can return data from your code using the `postMessage(data)` function. You can return transferable objects such as ArrayBuffer using `postMessage(data, [transferableList])`. ([more info](https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast))
+
+You can receive data in the container by defining `onmessage`, e.g. `onmessage=function(e) { // e.data }`.
 
 ### Simple Fetch request
 ```javascript
-var runner = new exec(function() {
+var runner = new exec(function(postMessage) {
     fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js')
         .then(function(response) {
             response.text().then(function(text) {
-                returnData(text);
+                postMessage(text);
             });
         }).catch(function(err) {
             console.log(err.message);
         });
-}).then(function(data) {
-    console.log('fetch result', data);
+}, function(data) {
+    console.log('fetch result', data.length);
 });
 
 // timeout in 5 seconds
@@ -52,33 +54,39 @@ setTimeout(function() {
 
 ### Advanced Fetch request
 ```javascript
-var runner = new exec(function() {
-    fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js')
-        .then(function(response) {
+var runner = new exec(function(postMessage) {
 
-            // return original Fetch response
+    // fetch url on demand
+    onmessage = function(e) {
+        var url = e.data;
+        fetch(url)
+            .then(function(response) {
 
-            // headers
-            var headers = {};
-            for (key of response.headers.keys()) {
-                headers[key] = response.headers.get(key);
-            }
+                // return original Fetch response
 
-            // return transferable arraybuffer
-            // @link https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast
-            response.arrayBuffer()
-                .then(function(buffer) {
-                    returnData({
-                        buffer: buffer,
-                        headers: headers,
-                        status: response.status,
-                        statusText: response.statusText
-                    }, [buffer]);
-                });
-        }).catch(function(err) {
-            console.log(err.message);
-        });
-}).then(function(data) {
+                // headers
+                var headers = {};
+                for (key of response.headers.keys()) {
+                    headers[key] = response.headers.get(key);
+                }
+
+                // return transferable arraybuffer
+                // @link https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast
+                response.arrayBuffer()
+                    .then(function(buffer) {
+                        postMessage({
+                            url: url,
+                            buffer: buffer,
+                            headers: headers,
+                            status: response.status,
+                            statusText: response.statusText
+                        }, [buffer]);
+                    });
+            }).catch(function(err) {
+                console.log(err.message);
+            });
+    };
+}, function(data) {
 
     // reconstruct Fetch response from arraybuffer
     var response = new Response(
@@ -88,20 +96,23 @@ var runner = new exec(function() {
             statusText: data.statusText
         }
     );
-    console.info('fetch response', response);
+    console.info('fetch response for url', data.url, response);
 
     // response text
     response.text()
         .then(function(text) {
-            console.info('fetch data', text.length);
+            console.info('fetch data for url', data.url, text.length);
         });
 
 });
 
-// timeout in 5 seconds
+// fetch URL
+runner.post('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js');
+
+// another fetch request in idle container
 setTimeout(function() {
-    runner.stop(); // cancel Fetch request
-},5000);
+    runner.post('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');    
+}, 1000);
 ```
 
 ### Abort / cancel code execution
@@ -125,7 +136,3 @@ setTimeout(function() {
     runner.stop();
 },1000);
 ```
-
-## Internet Explorer
-
-For IE a [Promise polyfill](https://github.com/taylorhakes/promise-polyfill) is required. The code could be modified to use a callback instead of a promise.

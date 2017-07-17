@@ -2,95 +2,93 @@
  * Cancellable Javascript Code Runner
  * @link https://github.com/optimalisatie/exec.js
  */
-var exec = function(code) {
+var exec = function(code, callback) {
     var runner = this,
         id = "_" + +new Date() + Math.random().toFixed(16).substring(2),
         e = 'EventListener',
-        E = 'Event';
+        E = 'Event',
+        p = 'postMessage',
+        o = 'onmessage';
 
     // event handler
     e = window['add' + e] ? ['add' + e, 'remove' + e] : ['attach' + E, 'detach' + E];
     E = ((e[0] === 'attach' + E) ? 'on' : '') + 'message';
 
-    // stop runner
-    var stop;
-    this.stop = function() {
-        if (stop) {
-            stop();
-            stop = false;
+    // create code execution container
+    var i = document.createElement('iframe');
+    i.name = id;
+    i.style = 'display:none;';
+    document.body.appendChild(i);
+    var d = (i.contentWindow || i.contentDocument);
+    if (d.document) {
+        d = d.document
+    }
+
+    // process data
+    var processData = function(m) {
+        if (m.data[0] === id && callback) {
+            callback(m.data[1]);
         }
     }
 
-    // promise
-    this.promise = new Promise(function(resolve, reject) {
+    // stop code execution
+    var stopped;
+    this.stop = function() {
 
-        // create code execution container
-        var i = document.createElement('iframe');
-        i.name = id;
-        i.style = 'display:none;';
-        document.body.appendChild(i);
-        var d = (i.contentWindow || i.contentDocument);
-        if (d.document) {
-            d = d.document
+        // stopped
+        if (stopped) {
+            return;
         }
 
-        // process data
-        var processData = function(m) {
-            if (m.data[0] === id) {
-                resolve(m.data[1]);
+        try {
+            var frm = window.frames[id];
 
-                // remove listener
-                window[e[1]](E, processData, false);
+            // IE
+            if (typeof frm.stop === 'undefined') {
+                frm.document.execCommand('Stop');
+            } else {
+                frm.stop();
             }
+        } catch (e) {}
+
+        // remove from document
+        try {
+            document.body.removeChild(i);
+        } catch (e) {}
+
+        // remove listener
+        window[e[1]](E, processData, false);
+    };
+
+    // post data to container
+    this.post = function(data, transferableList) {
+
+        // stopped
+        if (stopped) {
+            return;
         }
 
-        // stop code execution
-        stop = function() {
-            try {
-                var frm = window.frames[id];
+        i.contentWindow[p](data, document.location.href, transferableList);
+    };
 
-                // IE
-                if (typeof frm.stop === 'undefined') {
-                    frm.document.execCommand('Stop');
-                } else {
-                    frm.stop();
-                }
-            } catch (e) {}
+    // watch message event
+    window[e[0]](E, processData, false);
 
-            // remove from document
-            try {
-                document.body.removeChild(i);
-            } catch (e) {}
+    // convert to IIFE
+    code = '(' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') + ')(' + p + ')';
 
-            // remove listener
-            window[e[1]](E, processData, false);
-        }
-
-        // watch message event
-        window[e[0]](E, processData, false);
-
-        // convert to IIFE string
-        if (typeof code === 'function') {
-            code = '(' + code.toString() + ')()';
-        }
-
-        // execute code
-        d.open();
-        d.write('<script>var returnData = function(data,transferableList) { parent.postMessage([\'' + id + '\',data],' + JSON.stringify(document.location.href) + ',transferableList); };' + code + '</script>');
-        d.close();
-
-    });
+    // execute code
+    d.open();
+    d.write('<script>(function() {var ' + o + ';var document=parent.document;var P=function(){if(' + o + '){' + o + '.apply(this,arguments);}};var ' + p + '=function(d,t){parent.' + p + '([\'' + id + '\',d],' + JSON.stringify(document.location.href) + ',t);};' + code + ';window[\'' + e[0] + '\'](\'' + E + '\',P,false);})();</script>');
+    d.close();
 };
-exec.prototype = Object.create(Promise.prototype);
-exec.prototype.constructor = exec;
-exec.prototype.catch = function(fail) {
-    this.promise.catch(fail);
-    return this;
-}
-exec.prototype.then = function(success, fail) {
-    this.promise.then(success, fail);
-    return this;
+
+// post data to container
+exec.prototype.post = function(data, transferableList) {
+    return this.post(data, transferableList);
 };
+
+// abort execution
 exec.prototype.stop = function() {
     return this.stop();
 };
