@@ -1,8 +1,10 @@
-// simple pong code used by both exec.js and WebWorker
+// simple ping pong code used by both exec.js and WebWorker
 var PINGCODE = 'onmessage=function pong(){postMessage(null);}';
 
 // exec.js round trip / ping test
 var execTest = function(oncomplete) {
+
+    console.time('exec.js completed');
 
     var n = 0;
     var ping = Math.random().toFixed(16).substring(2);
@@ -21,6 +23,9 @@ var execTest = function(oncomplete) {
             runner.post(null);
         } else {
             runner.stop();
+
+            console.timeEnd('exec.js completed');
+
             if (oncomplete) {
                 oncomplete();
             }
@@ -33,6 +38,8 @@ var execTest = function(oncomplete) {
 
 // web worker round trip / ping test
 var wwTest = function(oncomplete) {
+
+    console.time('ww completed');
 
     var n = 0;
     var ping = Math.random().toFixed(16).substring(2);
@@ -68,6 +75,9 @@ var wwTest = function(oncomplete) {
             worker.postMessage(null);
         } else {
             worker.terminate();
+
+            console.timeEnd('ww completed');
+
             if (oncomplete) {
                 oncomplete();
             }
