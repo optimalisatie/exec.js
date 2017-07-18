@@ -75,20 +75,22 @@
             i.contentWindow[id](data);
         }
 
+        // convert to IIFE
+        var iife = function(code) {
+            return '(' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') + ')(' + p + ');';
+        }
+
         // execute code in container
         this.exec = function(code) {
-            i.contentWindow['e' + id](code);
+            i.contentWindow['e' + id](iife(code));
         }
 
         // process data posted from container
         window[id] = callback;
 
-        // convert to IIFE
-        code = '(' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') + ')(' + p + ')';
-
         // execute code
         d.open();
-        d.write('<script>(function() {var ' + o + ';var ' + p + '=parent["' + id + '"]||function(){};' + code + ';window["' + id + '"]=' + o + ';window["e' + id + '"]=function(code){code = code + "; if (' + o + ') { window[\'' + id + '\'] = ' + o + '; }";(new Function("' + p + '","' + o + '",code))(' + p + ',null);console.log(window["' + id + '"]);}})();</scr' + 'ipt>');
+        d.write('<script>(function() {var ' + o + ';var ' + p + '=parent["' + id + '"]||function(){};' + iife(code) + 'window["' + id + '"]=' + o + ';window["e' + id + '"]=function(code){code = code + "if (' + o + ') {window[\'' + id + '\']=' + o + ';}";(new Function("' + p + '","' + o + '",code))(' + p + ',null);}})();</scr' + 'ipt>');
         d.close();
     };
 
