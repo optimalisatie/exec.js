@@ -190,11 +190,11 @@ setTimeout(function() {
 
 ```
 
-Enhance performance when making many fetch requests by creating an exec.js container pool. Alternatively, look at the Advanced Fetch example that keeps a container idle to respond instantly to new fetch requests.
+Enhance performance when making many fetch requests by creating an exec.js container pool using `exec(poolSize)`. Alternatively, look at the Advanced Fetch example that keeps a container idle to respond instantly to new requests.
 
 ```javascript
 // create container pool for performance
-exec(5); // 5 containers (should match amount of exec calls)
+exec(5); // should match amount of fetch requests
 console.time('fetch with pool');
 fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js').catch(function(err){}).abort();
 fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js').catch(function(err){}).abort();
