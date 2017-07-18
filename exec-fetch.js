@@ -27,16 +27,18 @@
             runner.post(args, resolve, reject);
         });
 
-        return this;
-    };
-    abortableFetch.prototype = Object.create(Promise.prototype);
-    abortableFetch.prototype.constructor = abortableFetch;
-    abortableFetch.prototype.catch = function(fail) {
-        this.promise = this.promise.catch(fail);
-        return this;
-    }
-    abortableFetch.prototype.then = function(success, fail) {
-        this.promise = this.promise.then(success, fail);
+        // catch
+        this.catch = function(fail) {
+            this.promise = this.promise.catch(fail);
+            return this;
+        };
+
+        // then
+        this.then = function(success, fail) {
+            this.promise = this.promise.then(success, fail);
+            return this;
+        };
+
         return this;
     };
 
