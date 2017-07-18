@@ -161,7 +161,7 @@ setTimeout(function() {
 ```
 
 
-### Cancellable Fetch
+### Abortable Fetch
 
 Include `exec-fetch.js` (265 bytes) in the HTML document.
 
