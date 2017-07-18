@@ -163,7 +163,7 @@ setTimeout(function() {
 
 ### Abortable Fetch
 
-Include `exec-fetch.js` (265 bytes) in the HTML document.
+Include `exec-fetch.js` (255 bytes) in the HTML document.
 
 ```html
 <script src="exec.min.js"></script>
