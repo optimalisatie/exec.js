@@ -190,7 +190,7 @@ setTimeout(function() {
 
 ```
 
-Enhance performance when making many fetch requests by creating an exec.js container pool. This removes the startup latency.
+Enhance performance when making many fetch requests by creating an exec.js container pool. Alternatively, look at the Advanced Fetch example that keeps a container idle to respond instantly to new fetch requests.
 
 ```javascript
 // create container pool for performance
