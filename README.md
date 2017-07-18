@@ -170,7 +170,7 @@ Include `exec-fetch.js` (265 bytes) in the HTML document.
 <script src="exec-fetch.min.js"></script>
 ```
 
-The native [fetch](https://developers.google.com/web/updates/2015/03/introduction-to-fetch) method is now enhanced with a `.cancel()` method.
+The native [fetch](https://developers.google.com/web/updates/2015/03/introduction-to-fetch) method is now enhanced with a `.abort()` method.
 
 ```javascript
 // normal fetch request
@@ -183,9 +183,9 @@ var request = fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angul
         console.log('err', err.message);
     });
 
-// cancel after 10ms
+// abort request after 10ms
 setTimeout(function() {
-    request.cancel();
+    request.abort();
 }, 10);
 
 ```

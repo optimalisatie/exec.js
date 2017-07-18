@@ -6,8 +6,8 @@ window['exec'] = function(code, callback) {
 }
 
 window['fetch'] = function() {}
-var cancellableFetch = function(args) {
-    this.cancel = function() {}
+var abortableFetch = function(args) {
+    this.abort = function() {}
 }
-cancellableFetch.prototype.catch = function() {}
-cancellableFetch.prototype.then = function() {}
+abortableFetch.prototype.catch = function() {}
+abortableFetch.prototype.then = function() {}

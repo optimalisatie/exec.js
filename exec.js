@@ -1,6 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
- * @version 1.0.12
+ * @version 1.0.14
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -71,8 +71,8 @@
         };
 
         // post data to container
-        this.post = function(data) {
-            i.contentWindow[id](data);
+        this.post = function() {
+            i.contentWindow[id].apply(this, arguments);
         }
 
         // convert to IIFE
