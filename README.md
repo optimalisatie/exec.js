@@ -56,6 +56,8 @@ Fine tune the timeout to test Fetch request and/or response cancellation.
 
 ### Advanced Fetch request
 
+exec.js makes it possible to return original objects without the need for serialization, cloning or transferable objects.
+
 ```javascript
 var runner = new exec(function(postMessage) {
 
@@ -88,8 +90,6 @@ setTimeout(function() {
 }, 1000);
 ```
 
-Note: Multithreading in Chrome 55+.
-
 ### Abort / cancel code execution
 
 To cancel code execution, use `runner.stop()`.
@@ -114,9 +114,9 @@ setTimeout(function() {
 },1000);
 ```
 
-### Code execution
+### On the fly code execution
 
-WebWorkers consist of fixed code/logic and a communication mechanism. exec.js allows to execute or update the running code and to rewrite communication handlers on the fly without communication latency or the need for cloning or transferable objects.
+WebWorkers consist of fixed code/logic and a communication mechanism with overhead/latency. exec.js allows running code to be updated and communication handlers to be rewritten on the fly.
 
 ```javascript
 var runner = new exec('setInterval(function() {console.log("startup code")},200);', function(data) {
