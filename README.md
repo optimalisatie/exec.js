@@ -5,6 +5,8 @@ The code is executed in an isolated container with full access to DOM and the ab
 
 In some modern browsers (Chrome 55+) the code is executed in a separate thread (multithreading). (see Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes))
 
+exec.js is 534 bytes compressed.
+
 # Install
 
 with npm:
