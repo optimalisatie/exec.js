@@ -50,14 +50,13 @@
     }
 
     // container pool
-    var pool;
+    var pool = [];
 
     // constructor
     var exec = function(code, callback, poolSize) {
 
         // create container pool
         if (!(this instanceof exec)) {
-            pool = [];
             for (var x = 0; x < code; x++) {
                 pool.push(container());
             }
