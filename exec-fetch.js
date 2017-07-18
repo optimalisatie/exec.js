@@ -6,6 +6,11 @@
 // fetch extended with .abort() method
 (function(window) {
 
+    // fetch not supported
+    if (!window.fetch) {
+        return;
+    }
+
     var abortableFetch = function(args) {
 
         // start fetch execution container

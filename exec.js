@@ -1,6 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
- * @version 1.0.14
+ * @version 1.0.15
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
