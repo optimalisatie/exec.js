@@ -1,6 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
- * @version 1.0.11
+ * @version 1.0.12
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -90,7 +90,7 @@
 
         // execute code
         d.open();
-        d.write('<script>(function() {var ' + o + ';var ' + p + '=parent["' + id + '"]||function(){};' + iife(code) + 'window["' + id + '"]=' + o + ';window["e' + id + '"]=function(code){code = code + "if (' + o + ') {window[\'' + id + '\']=' + o + ';}";(new Function("' + p + '","' + o + '",code))(' + p + ',null);}})();</scr' + 'ipt>');
+        d.write('<script>(function() {var ' + o + ';var ' + p + '=parent["' + id + '"]||function(){};' + iife(code) + 'window["' + id + '"]=' + o + ';window["e' + id + '"]=function(code){(new Function("' + p + '","' + o + '",code + "if (' + o + ') {window[\'' + id + '\']=' + o + ';}"))(' + p + ',null);}})();</scr' + 'ipt>');
         d.close();
     };
 
