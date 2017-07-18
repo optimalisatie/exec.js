@@ -72,9 +72,10 @@
         // create container pool
         if (!(this instanceof exec)) {
             poolSize = code;
-            if (pool.length < code) {
+            var n = code - pool.length;
+            if (n > 0) {
                 var fragment = document.createDocumentFragment();
-                for (var x = 0; x < code; x++) {
+                for (var x = 0; x < n; x++) {
                     container(fragment);
                 }
                 documentElement.appendChild(fragment);
