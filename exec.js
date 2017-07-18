@@ -1,6 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
- * @version 1.0.9
+ * @version 1.0.10
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -10,20 +10,39 @@
         documentElement = document.documentElement,
         f = document.createElement('iframe');
 
+    // stop code execution
+    var stop = function(id, i) {
+        try {
+            var frm = window.frames[id];
+
+            // IE
+            if (typeof frm.stop === 'undefined') {
+                frm.document.execCommand('Stop');
+            } else {
+                frm.stop();
+            }
+        } catch (e) {}
+
+        // remove container
+        try {
+            documentElement.removeChild(i);
+        } catch (e) {}
+    };
+
+    // event handler
+    var e = 'EventListener',
+        E = 'Event',
+        p = 'postMessage',
+        o = 'onmessage';
+    e = window['add' + e] ? ['add' + e, 'remove' + e] : ['attach' + E, 'detach' + E];
+    E = ((e[0] === 'attach' + E) ? 'on' : '') + 'message';
+
     // constructor
     var exec = function(code, callback) {
 
         var runner = this,
             id = "_" + +new Date() + Math.random().toFixed(16).substring(2),
-            e = 'EventListener',
-            E = 'Event',
-            p = 'postMessage',
-            o = 'onmessage',
             s, i, stopped;
-
-        // event handler
-        e = window['add' + e] ? ['add' + e, 'remove' + e] : ['attach' + E, 'detach' + E];
-        E = ((e[0] === 'attach' + E) ? 'on' : '') + 'message';
 
         // create code execution container
         i = f.cloneNode(false);
@@ -44,21 +63,8 @@
             }
             stopped = true;
 
-            try {
-                var frm = window.frames[id];
-
-                // IE
-                if (typeof frm.stop === 'undefined') {
-                    frm.document.execCommand('Stop');
-                } else {
-                    frm.stop();
-                }
-            } catch (e) {}
-
-            // remove from document
-            try {
-                documentElement.removeChild(i);
-            } catch (e) {}
+            // stop
+            stop(id, i);
 
             // remove listener
             window[e[1]](E, P, false);
@@ -67,14 +73,15 @@
         // post data to container
         this.post = function(data, transferableList) {
 
-            if (!s) {
-                s = i.contentWindow[p].bind(i.contentWindow);
-            }
-
             // stopped
             if (stopped) {
                 return;
             }
+
+            if (!s) {
+                s = i.contentWindow[p].bind(i.contentWindow);
+            }
+
             s(data, "*", transferableList);
         };
 
