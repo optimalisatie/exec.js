@@ -1,6 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
- * @version 1.0.15
+ * @version 1.0.16
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -31,7 +31,7 @@
         try {
             delete window[id];
         } catch (e) {}
-    };
+    }
 
     // event handler
     var e = 'EventListener',
@@ -41,59 +41,88 @@
     e = window['add' + e] ? ['add' + e, 'remove' + e] : ['attach' + E, 'detach' + E];
     E = ((e[0] === 'attach' + E) ? 'on' : '') + 'message';
 
-    // constructor
-    var exec = function(code, callback) {
-        var runner = this,
-            id = "_" + +new Date() + Math.random().toFixed(16).substring(2),
-            s, i, stopped;
-
-        // create code execution container
-        i = f.cloneNode(false);
-        i.name = id;
+    // create code execution container
+    var container = function() {
+        var i = f.cloneNode(false);
         i.style.display = 'none';
         documentElement.appendChild(i);
-        var d = (i.contentWindow || i.contentDocument);
-        if (d.document) {
-            d = d.document
-        }
+        return i;
+    }
 
-        // stop code execution
-        this.stop = function() {
+    // container pool
+    var pool;
 
-            // stopped
-            if (stopped) {
-                return;
+    // constructor
+    var exec = function(code, callback, poolSize) {
+
+        // create container pool
+        if (!(this instanceof exec)) {
+            pool = [];
+            for (var x = 0; x < code; x++) {
+                pool.push(container());
             }
-            stopped = true;
+        } else {
 
-            // stop
-            stop(id, i);
-        };
+            var runner = this,
+                id = "_" + +new Date() + Math.random().toFixed(16).substring(2),
+                s, i, stopped;
 
-        // post data to container
-        this.post = function() {
-            i.contentWindow[id].apply(this, arguments);
+            // get container from pool
+            if (pool.length) {
+                i = pool.shift();
+            }
+
+            // create new container
+            if (!i) {
+                i = container();
+            }
+
+            // initiate code execution container
+            i.name = id;
+            var d = (i.contentWindow || i.contentDocument);
+            if (d.document) {
+                d = d.document;
+            }
+
+            // stop code execution
+            this.stop = function() {
+
+                // stopped
+                if (stopped) {
+                    return;
+                }
+                stopped = true;
+
+                // stop
+                stop(id, i);
+            }
+
+            // post data to container
+            this.post = function() {
+                i.contentWindow[id].apply(this, arguments);
+            }
+
+            // convert to IIFE
+            var iife = function(code) {
+                return '(' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') + ')(' + p + ');';
+            }
+
+            // execute code in container
+            this.exec = function(code) {
+                i.contentWindow['e' + id](iife(code));
+            }
+
+            // process data posted from container
+            window[id] = callback;
+
+            // execute code
+            d.open();
+            d.write('<script>(function() {var ' + o + ';var ' + p + '=parent["' + id + '"]||function(){};' + iife(code) + 'window["' + id + '"]=' + o + ';window["e' + id + '"]=function(code){(new Function("' + p + '","' + o + '",code + "if (' + o + ') {window[\'' + id + '\']=' + o + ';}"))(' + p + ',null);}})();</scr' + 'ipt>');
+            d.close();
         }
-
-        // convert to IIFE
-        var iife = function(code) {
-            return '(' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') + ')(' + p + ');';
-        }
-
-        // execute code in container
-        this.exec = function(code) {
-            i.contentWindow['e' + id](iife(code));
-        }
-
-        // process data posted from container
-        window[id] = callback;
-
-        // execute code
-        d.open();
-        d.write('<script>(function() {var ' + o + ';var ' + p + '=parent["' + id + '"]||function(){};' + iife(code) + 'window["' + id + '"]=' + o + ';window["e' + id + '"]=function(code){(new Function("' + p + '","' + o + '",code + "if (' + o + ') {window[\'' + id + '\']=' + o + ';}"))(' + p + ',null);}})();</scr' + 'ipt>');
-        d.close();
     };
 
-    // define public constructor
+    // public exec API
     window['exec'] = exec;
+
 })(window);

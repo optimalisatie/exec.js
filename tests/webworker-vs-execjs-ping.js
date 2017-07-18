@@ -1,30 +1,32 @@
 // simple ping code used by both exec.js and WebWorker
 var PINGCODE = 'onmessage=function pong(){postMessage(null);}';
 
+// optionally, prepare exec.js for performance
+exec(1); // create pool with 1 container
+
 // exec.js round trip / ping test
 var execTest = function(oncomplete) {
 
     console.time('exec.js completed');
 
     var n = 0;
-    var ping = Math.random().toFixed(16).substring(2);
 
-    console.time('exec.js ping ' + ping);
+    console.time('exec.js ping');
 
     // start exec.js
     var runner = new exec(PINGCODE, function onmessage() {
 
-        console.timeEnd('exec.js ping ' + ping);
+        console.timeEnd('exec.js ping');
 
         if (n < 10) {
             n++;
-            ping = Math.random().toFixed(16).substring(2);
-            console.time('exec.js ping ' + ping);
+            console.time('exec.js ping');
             runner.post(null);
         } else {
-            runner.stop();
 
             console.timeEnd('exec.js completed');
+
+            runner.stop();
 
             if (oncomplete) {
                 oncomplete();
@@ -42,9 +44,8 @@ var wwTest = function(oncomplete) {
     console.time('ww completed');
 
     var n = 0;
-    var ping = Math.random().toFixed(16).substring(2);
 
-    console.time('ww ping ' + ping);
+    console.time('ww ping');
 
     // create worker
     var blob;
@@ -66,17 +67,17 @@ var wwTest = function(oncomplete) {
 
     worker.onmessage = function(e) {
 
-        console.timeEnd('ww ping ' + ping);
+        console.timeEnd('ww ping');
 
         if (n < 10) {
             n++;
-            ping = Math.random().toFixed(16).substring(2);
-            console.time('ww ping ' + ping);
+            console.time('ww ping');
             worker.postMessage(null);
         } else {
-            worker.terminate();
 
             console.timeEnd('ww completed');
+
+            worker.terminate();
 
             if (oncomplete) {
                 oncomplete();
