@@ -1,6 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
- * @version 1.1.0
+ * @version 1.1.1
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -8,7 +8,11 @@
     // container
     var c, document = window.document,
         documentElement = document.documentElement,
-        f = document.createElement('iframe');
+        idleCallback = window.requestIdleCallback || function(fn) {
+            fn();
+        },
+        f = document.createElement('iframe'),
+        pool = [];
 
     // stop code execution
     var stop = function(id, i) {
@@ -25,12 +29,19 @@
 
         // remove container
         try {
-            documentElement.removeChild(i);
+            i.parentNode.removeChild(i);
         } catch (e) {}
 
-        try {
-            delete window[id];
-        } catch (e) {}
+        // restore pool
+        idleCallback(function() {
+
+            // remove listener
+            try {
+                delete window[id];
+            } catch (e) {}
+
+            container(documentElement);
+        });
     }
 
     // event handler
@@ -42,23 +53,24 @@
     E = ((e[0] === 'attach' + E) ? 'on' : '') + 'message';
 
     // create code execution container
-    var container = function() {
+    var container = function(target) {
         var i = f.cloneNode(false);
         i.style.display = 'none';
-        documentElement.appendChild(i);
-        return i;
+        target.appendChild(i);
+        pool.push(i);
     }
-
-    // container pool
-    var pool = [];
 
     // constructor
     var exec = function(code, callback, poolSize) {
 
         // create container pool
         if (!(this instanceof exec)) {
-            for (var x = 0; x < code; x++) {
-                pool.push(container());
+            if (pool.length < code) {
+                var fragment = document.createDocumentFragment();
+                for (var x = 0; x < code; x++) {
+                    container(fragment);
+                }
+                documentElement.appendChild(fragment);
             }
         } else {
 
@@ -67,13 +79,10 @@
                 s, i, stopped;
 
             // get container from pool
-            if (pool.length) {
-                i = pool.shift();
-            }
+            while (!(i = pool.shift())) {
 
-            // create new container
-            if (!i) {
-                i = container();
+                // create container
+                container(documentElement);
             }
 
             // initiate code execution container
