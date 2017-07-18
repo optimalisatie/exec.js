@@ -196,10 +196,11 @@ Abortable fetch requires a dedicated cancellable execution container per fetch r
 // create container pool for performance
 exec(5); // should match amount of fetch requests
 console.time('abortable fetch with pool');
-fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js').catch(function(err){}).abort();
-fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js').catch(function(err){}).abort();
-fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js').catch(function(err){}).abort();
-fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js').catch(function(err){}).abort();
-fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js').catch(function(err){}).abort();
+var url = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js';
+fetch(url).catch(function(err){}).abort();
+fetch(url).catch(function(err){}).abort();
+fetch(url).catch(function(err){}).abort();
+fetch(url).catch(function(err){}).abort();
+fetch(url).catch(function(err){}).abort();
 console.timeEnd('abortable fetch with pool');
 ```
