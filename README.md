@@ -114,7 +114,7 @@ setTimeout(function() {
 
 ### On the fly code execution
 
-WebWorkers consist of fixed code/logic and a communication mechanism with overhead/latency. exec.js allows running code to be updated and communication handlers to be rewritten on the fly.
+WebWorkers consist of fixed code/logic and a communication mechanism with overhead. exec.js allows running code to be updated and communication handlers to be rewritten instantly.
 
 ```javascript
 var runner = new exec('setInterval(function() {console.log("startup code")},200);', function(data) {
