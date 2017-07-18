@@ -2,7 +2,7 @@
 
 The test `webworker-vs-execjs-ping.js` compares the round trip time for a WebWorker and exec.js. 
 
-As of `v1.0.16`, exec.js is 10x to 40x faster than WebWorkers. In the newest versions of Chrome the round trip speed of exec.js is 0,005ms compared to 0,2ms for WebWorkers.
+As of `v1.0.16`, exec.js is 10x to 40x faster than WebWorkers. In the newest versions of Chrome the round trip speed of exec.js is 0,005ms compared to 0,2ms for WebWorkers while being multi-threaded.
 
 ![WebWorker vs Exec.js](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/webworker-vs-execjs-ping.png)
 
