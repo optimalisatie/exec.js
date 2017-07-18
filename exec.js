@@ -39,7 +39,6 @@
 
     // constructor
     var exec = function(code, callback) {
-
         var runner = this,
             id = "_" + +new Date() + Math.random().toFixed(16).substring(2),
             s, i, stopped;
