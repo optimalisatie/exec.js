@@ -190,7 +190,7 @@ setTimeout(function() {
 
 ```
 
-Enhance performance when making many fetch requests by creating an exec.js container pool. Alternatively, look at the Advanced Fetch example that keeps a exec.js container idle to respond instantly to new requests.
+Abortable fetch requires a dedicated cancellable execution container per fetch request. Enhance performance when making many fetch requests by creating an exec.js container pool.
 
 ```javascript
 // create container pool for performance
