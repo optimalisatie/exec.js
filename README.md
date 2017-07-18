@@ -172,7 +172,7 @@ Include `exec-fetch.js` in the HTML document.
 <script src="exec-fetch.min.js"></script>
 ```
 
-The native fetch method is now enhanced with a `.cancel()` method.
+The native [fetch](https://developers.google.com/web/updates/2015/03/introduction-to-fetch) method is now enhanced with a `.cancel()` method.
 
 ```javascript
 // normal fetch request
