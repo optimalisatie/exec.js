@@ -1,7 +1,7 @@
 # Cancellable Javascript Code Runner  [![npm version](https://badge.fury.io/js/exec.js.svg)](http://badge.fury.io/js/exec.js)
 A high performance and low latency javascript code runner that enables to isolate and abort javascript code execution, including setTimeout/setInterval, promises and Fetch requests. It supports most browsers including IE.
 
-WebWorkers have a startup latency of ~40ms and lack access to DOM which make them unsuitable for some applications. This code runner has full access to DOM and does not have a significant latency or overhead. It's 600 bytes compressed.
+WebWorkers have a startup latency of ~40ms and lack access to DOM which make them unsuitable for some applications. This code runner has full access to DOM and does not have a significant latency or overhead. It's 539 bytes compressed.
 
 In some modern browsers (Chrome 55+) the code is executed in a separate thread (multithreading) without the latency disadvantage of WebWorkers and with less code. (see Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes) and [tests](https://github.com/optimalisatie/exec.js/tree/master/tests))
 
@@ -27,9 +27,7 @@ Include `exec.js` in the HTML document.
 
 Use `var runner = new exec(your code);` to execute javascript code in an isolated container. You can provide the code as a string or as a function. It returns an object with the methods `runner.post()` to post data to the container and `runner.stop()` that instantly aborts execution and clears memory. 
 
-You can return data from your code using the `postMessage(data)` function. You can return transferable objects such as ArrayBuffer using `postMessage(data, [transferableList])`. ([more info](https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast))
-
-You can receive data in the container by defining `onmessage`, e.g. `onmessage=function(e) { // e.data }`.
+You can return data from your code using the `postMessage(data)` function. You can receive data in the container by defining `onmessage`, e.g. `onmessage=function(e) { // e.data }`.
 
 ### Simple Fetch request
 ```javascript
@@ -57,55 +55,26 @@ Fine tune the timeout to test Fetch request and/or response cancellation.
 ![Cancelled Fetch API Request and Response](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/fetch-cancel.png)
 
 ### Advanced Fetch request
+
 ```javascript
 var runner = new exec(function(postMessage) {
 
     // fetch url on demand
-    onmessage = function(e) {
-        var url = e.data;
+    onmessage = function(url) {
         fetch(url)
-            .then(function(response) {
-
-                // return original Fetch response
-
-                // headers
-                var headers = {};
-                for (key of response.headers.keys()) {
-                    headers[key] = response.headers.get(key);
-                }
-
-                // return transferable arraybuffer
-                // @link https://developers.google.com/web/updates/2011/12/Transferable-Objects-Lightning-Fast
-                response.arrayBuffer()
-                    .then(function(buffer) {
-                        postMessage({
-                            url: url,
-                            buffer: buffer,
-                            headers: headers,
-                            status: response.status,
-                            statusText: response.statusText
-                        }, [buffer]);
-                    });
-            }).catch(function(err) {
+            .then(postMessage)
+            .catch(function(err) {
                 console.log(err.message);
             });
     };
-}, function(data) {
+}, function(response) {
 
-    // reconstruct Fetch response from arraybuffer
-    var response = new Response(
-        data.buffer, {
-            headers: new Headers(data.headers),
-            status: data.status,
-            statusText: data.statusText
-        }
-    );
-    console.info('fetch response for url', data.url, response);
+    console.info('fetch response', response);
 
     // response text
     response.text()
         .then(function(text) {
-            console.info('fetch data for url', data.url, text.length);
+            console.info('fetch data', text.length);
         });
 
 });
@@ -118,6 +87,8 @@ setTimeout(function() {
     runner.post('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');
 }, 1000);
 ```
+
+Note: Multithreading in Chrome 55+.
 
 ### Abort / cancel code execution
 
@@ -141,4 +112,35 @@ var runner = new exec('setInterval(function() {var h = parent.document.createEle
 setTimeout(function() {
     runner.stop();
 },1000);
+```
+
+### Code execution
+
+WebWorkers consist of fixed code/logic and a communication mechanism. exec.js allows to execute or update the running code and to rewrite communication handlers on the fly without communication latency or the need for cloning or transferable objects.
+
+```javascript
+var runner = new exec('setInterval(function() {console.log("startup code")},200);', function(data) {
+    console.info('response from container:', data);
+});
+
+// exec new code in container
+setTimeout(function() {
+    runner.exec('console.log("some other code");');
+}, 100);
+
+setTimeout(function() {
+
+    console.log("setup/redefine message handler");
+    runner.exec('onmessage=function(data){postMessage("received "+data+" in container");}');
+
+    // test message handler
+    console.log("post some data to container");
+    runner.post('some data');
+
+    setTimeout(function() {
+        console.log('stop');
+        runner.stop();
+    }, 1000);
+}, 1000);
+
 ```

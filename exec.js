@@ -1,6 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
- * @version 1.0.10
+ * @version 1.0.11
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -26,6 +26,10 @@
         // remove container
         try {
             documentElement.removeChild(i);
+        } catch (e) {}
+
+        try {
+            delete window[id];
         } catch (e) {}
     };
 
@@ -64,42 +68,27 @@
 
             // stop
             stop(id, i);
-
-            // remove listener
-            window[e[1]](E, P, false);
         };
 
         // post data to container
-        this.post = function(data, transferableList) {
-
-            // stopped
-            if (stopped) {
-                return;
-            }
-
-            if (!s) {
-                s = i.contentWindow[p].bind(i.contentWindow);
-            }
-
-            s(data, "*", transferableList);
-        };
-
-        // process data posted from container
-        var P = function(m) {
-            if (m.data[0] === id && callback) {
-                callback(m.data[1]);
-            }
+        this.post = function(data) {
+            i.contentWindow[id](data);
         }
 
-        // watch message event
-        window[e[0]](E, P, false);
+        // execute code in container
+        this.exec = function(code) {
+            i.contentWindow['e' + id](code);
+        }
+
+        // process data posted from container
+        window[id] = callback;
 
         // convert to IIFE
         code = '(' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') + ')(' + p + ')';
 
         // execute code
         d.open();
-        d.write('<script>(function() {var ' + o + ';var ' + p + '=function(d,t){parent.' + p + '(["' + id + '",d],"*",t);};' + code + ';if (' + o + ') {window["' + e[0] + '"]("' + E + '",' + o + ',false);}})();</scr' + 'ipt>');
+        d.write('<script>(function() {var ' + o + ';var ' + p + '=parent["' + id + '"]||function(){};' + code + ';window["' + id + '"]=' + o + ';window["e' + id + '"]=function(code){code = code + "; if (' + o + ') { window[\'' + id + '\'] = ' + o + '; }";(new Function("' + p + '","' + o + '",code))(' + p + ',null);console.log(window["' + id + '"]);}})();</scr' + 'ipt>');
         d.close();
     };
 
