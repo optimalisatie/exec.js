@@ -194,7 +194,7 @@ Enhance performance when making many fetch requests by creating an exec.js conta
 
 ```javascript
 // create container pool for performance
-exec(5); // 1 container (should match amount of exec calls)
+exec(5); // 5 containers (should match amount of exec calls)
 console.time('fetch with pool');
 fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js').catch(function(err){}).abort();
 fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js').catch(function(err){}).abort();
