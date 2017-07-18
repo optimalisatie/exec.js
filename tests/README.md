@@ -6,4 +6,4 @@ As of `v1.0.16`, exec.js is 10x to 40x faster than WebWorkers and without a high
 
 ![WebWorker vs Exec.js](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/webworker-vs-execjs-ping.png)
 
-In Chrome 55+ exec.js is multithreading with full access to DOM and with the ability to return original objects without serialization, cloning or the need for transferable objects.
+In Chrome 55+ exec.js is multithreading with full access to DOM and with the ability to return functions and objects without serialization, cloning or the need for transferable objects.
