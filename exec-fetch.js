@@ -14,7 +14,7 @@
     var abortableFetch = function(args) {
 
         // start fetch execution container
-        var runner = new exec('onmessage = function(a,b,c) {window.fetch.apply(window, a).then(b).catch(c);}');
+        var runner = new exec('onmessage = function(a,b,c) {fetch.apply(self, a).then(b).catch(c);}');
 
         // abort fetch request
         this.abort = function() {
