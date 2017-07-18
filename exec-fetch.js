@@ -3,7 +3,7 @@
  * @link https://github.com/optimalisatie/exec.js
  */
 
-// fetch extended with cancel() method
+// fetch extended with .cancel() method
 (function(window) {
 
     var cancellableFetch = function(args) {

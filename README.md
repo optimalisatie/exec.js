@@ -161,3 +161,33 @@ setTimeout(function() {
 }, 1000);
 
 ```
+
+
+### Cancellable Fetch
+
+Include `exec-fetch.js` in the HTML document.
+
+```html
+<script src="exec.min.js"></script>
+<script src="exec-fetch.min.js"></script>
+```
+
+The native fetch method is now enhanced with a `.cancel()` method.
+
+```javascript
+// normal fetch request
+var request = fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js')
+    .then(function(response) {
+        response.text().then(function(text) {
+            console.log('response', text.length);
+        });
+    }).catch(function(err) {
+        console.log('err', err.message);
+    });
+
+// cancel after 10ms
+setTimeout(function() {
+    request.cancel();
+}, 10);
+
+```
