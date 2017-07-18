@@ -190,11 +190,12 @@ setTimeout(function() {
 
 ```
 
-Abortable fetch requires a dedicated cancellable execution container per fetch request. Enhance performance when making many fetch requests by creating an exec.js container pool.
+Abortable fetch requires a dedicated cancellable execution container per fetch request. Enhance performance when making many subsequent fetch requests by creating an exec.js container pool. The default pool size is 1.
 
 ```javascript
 // create container pool for performance
-exec(5); // should match amount of fetch requests
+exec(5);
+
 console.time('abortable fetch with pool');
 var url = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js';
 fetch(url).catch(function(err){}).abort();
