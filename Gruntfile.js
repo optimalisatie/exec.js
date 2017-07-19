@@ -35,6 +35,19 @@ module.exports = function(grunt) {
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: ['./closure-compiler/exec.js']
                 }
+            },
+            'exec-blob.js': {
+                closurePath: 'closure-compiler',
+                js: 'exec-blob.js',
+                jsOutputFile: 'exec-blob.min.js',
+                //reportFile: 'public/js/closure-compiler/reports/pagespeed+' + keys.join('+') + '.txt',
+                noreport: true,
+                maxBuffer: 500,
+                options: {
+                    compilation_level: 'ADVANCED_OPTIMIZATIONS',
+                    language_in: 'ECMASCRIPT5_STRICT',
+                    externs: ['./closure-compiler/exec.js']
+                }
             }
         },
 
@@ -47,6 +60,16 @@ module.exports = function(grunt) {
                 },
                 files: {
                     src: ['exec.min.js']
+                }
+            },
+            'exec-blob.js': {
+                options: {
+                    position: 'replace',
+                    banner: '<%= meta.banner %>',
+                    linebreak: false
+                },
+                files: {
+                    src: ['exec-blob.min.js']
                 }
             },
             'exec-fetch.js': {
