@@ -115,26 +115,24 @@
 
             // post data to container
             this.post = function() {
-                i.contentWindow[id].apply(this, arguments);
-            }
-
-            // convert to IIFE
-            var iife = function(code) {
-                return '(' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') + ')(' + p + ');';
+                i.contentWindow['p' + id].apply(this, arguments);
             }
 
             // execute code in container
             this.exec = function(code) {
-                i.contentWindow['e' + id](iife(code));
+                i.contentWindow[id](code);
             }
 
             // process data posted from container
-            window[id] = callback;
+            window[id] = callback || function() {};
 
             // execute code
             d.open();
-            d.write('<script>(function() {var ' + o + ';var ' + p + '=parent["' + id + '"]||function(){};' + iife(code) + 'window["' + id + '"]=' + o + ';window["e' + id + '"]=function(code){(new Function("' + p + '","' + o + '",code + "if (' + o + ') {window[\'' + id + '\']=' + o + ';}"))(' + p + ',null);}})();</scr' + 'ipt>');
+            d.write('<script>(function() {var ' + o + ';var ' + p + '=parent["' + id + '"];window["p' + id + '"]=' + o + ';window["' + id + '"]=function(f){if (typeof f==="string"){f = new Function("' + p + '", f); } f(' + p + ');if (' + o + '){window["p' + id + '"]=' + o + ';};}})();</scr' + 'ipt>');
             d.close();
+
+            // exec
+            this.exec(code);
         }
     };
 
