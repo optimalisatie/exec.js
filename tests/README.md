@@ -8,7 +8,7 @@ As of `v1.1.0`, exec.js is 10x to 40x faster than WebWorkers. In the newest vers
 
 ![WebWorker vs Exec.js](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/webworker-vs-execjs-ping.png)
 
-In Chrome 60 Beta the WebWorker startup latency is still at ~100ms on a 2016 Core M7 laptop (the round trip performance is worse than Chrome 57 on a 2012 Core i5) while the `exec.js` performance is enhanced greatly reaching speeds as fast as 0,001ms per round trip.
+In Chrome 60 Beta the WebWorker startup latency is still at ~100ms on a 2016 Core M7 laptop (the round trip performance is worse than Chrome 57 on a 2012 Core i5) while the `exec.js` performance is enhanced greatly reaching speeds as fast as 0,001ms per round trip. Chrome 58 on the same laptop performs worse.
 
 <sup>Chrome Version 60.0.3112.72 (Official Build) beta (64-bit)</sup>
 
