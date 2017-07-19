@@ -4,6 +4,9 @@ var PINGCODE = 'onmessage=function pong(){postMessage(null);}';
 // optionally, prepare exec.js for performance
 exec(1); // create pool with 1 container
 
+// clear console
+console.clear();
+
 // exec.js round trip / ping test
 var execTest = function(oncomplete) {
 
@@ -89,4 +92,7 @@ var wwTest = function(oncomplete) {
     worker.postMessage(null);
 };
 
-execTest(wwTest);
+// start test
+setTimeout(function(){
+    execTest(wwTest);
+},0);
