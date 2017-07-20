@@ -102,7 +102,7 @@ Abortable fetch requires a dedicated cancellable execution container per fetch r
 
 ### Performance
 
-Enhance the performance of `exec.js` when making subsequent requests by creating an exec.js container pool. [Code isolation](#security--isolation) configuration can be applied as a third parameter.
+Enhance the performance of `exec.js` when making subsequent/simultaneous requests by creating an exec.js container pool. [Code isolation](#security--isolation) configuration can be applied as a third parameter.
 
 ```javascript
 // create container pool for performance
