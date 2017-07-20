@@ -1,6 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
- * @version 1.4.0
+ * @version 1.4.1
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -12,7 +12,16 @@
             fn();
         },
         f = document.createElement('iframe'),
-        pool = {};
+        pool = {},
+        e = 'EventListener',
+        E = 'Event',
+        p = 'postMessage',
+        o = 'onmessage';
+    e = window['add' + e] ? ['add' + e, 'remove' + e] : ['attach' + E, 'detach' + E];
+    E = ((e[0] === 'attach' + E) ? 'on' : '') + 'message';
+
+    // execution container
+    var container = ',w=window,d=document,r="_"+i,' + o + ',' + p + '=parent[i];window[r]=function(c){(new Function("' + p + '","' + o + '",c+"if(' + o + '){w[i]=' + o + ';}"))(' + p + ',null);};';
 
     // stop code execution
     var stop = function(id, i) {
@@ -28,7 +37,7 @@
         } catch (e) {}
 
         // retrieve sandbox configuration
-        var sandbox = i.sandbox;
+        var sandbox = i.sandbox || 0;
 
         // remove container
         try {
@@ -50,14 +59,6 @@
         });
     }
 
-    // event handler
-    var e = 'EventListener',
-        E = 'Event',
-        p = 'postMessage',
-        o = 'onmessage';
-    e = window['add' + e] ? ['add' + e, 'remove' + e] : ['attach' + E, 'detach' + E];
-    E = ((e[0] === 'attach' + E) ? 'on' : '') + 'message';
-
     // create container node
     var node = function(target, sandbox) {
         var i = f.cloneNode(false);
@@ -71,10 +72,10 @@
         target.appendChild(i);
 
         // add to pool
-        if (typeof pool[(sandbox) ? sandbox : 0] === 'undefined') {
-            pool[(sandbox) ? sandbox : 0] = [];
+        if (typeof pool[sandbox] === 'undefined') {
+            pool[sandbox] = [];
         }
-        pool[(sandbox) ? sandbox : 0].push(i);
+        pool[sandbox].push(i);
     }
 
     // default poolSize (max idle containers)
@@ -84,7 +85,7 @@
     var exec = function(code, onmessage, sandbox) {
 
         // isolate container
-        sandbox = sandbox = ((sandbox instanceof Array) ? ' ' + sandbox.join(' ') : false);
+        sandbox = sandbox = ((sandbox instanceof Array) ? ' ' + sandbox.join(' ') : 0);
 
         // create container pool
         if (!(this instanceof exec)) {
@@ -103,7 +104,7 @@
                 s, i, stopped;
 
             // get container from pool
-            while (!(i = (pool[(sandbox) ? sandbox : 0] || []).shift())) {
+            while (!(i = (pool[sandbox] || []).shift())) {
                 // create container
                 node(documentElement, sandbox);
             }
@@ -149,13 +150,13 @@
 
             // execute code in container
             this.exec = function(code) {
-                i.contentWindow['e' + id](iife(code));
+                i.contentWindow['_' + id](iife(code));
                 return this;
             }
 
             // execute code
             d.open();
-            d.write('<script>(function() {var ' + o + ';var ' + p + '=parent["' + id + '"]||function(){};' + iife(code) + 'window["' + id + '"]=' + o + ';window["e' + id + '"]=function(code){(new Function("' + p + '","' + o + '",code + "if (' + o + ') {window[\'' + id + '\']=' + o + ';}"))(' + p + ',null);}})();</scr' + 'ipt>');
+            d.write('<script>var i="' + id + '"' + container + iife(code) + 'w[i]=' + o + ';</scr' + 'ipt>');
             d.close();
 
             return this;

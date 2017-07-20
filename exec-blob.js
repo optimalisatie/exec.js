@@ -30,7 +30,7 @@
     }
 
     // execution container
-    var container = 'w=window,d=document,y="_"+i;b=' + blob.toString() + ',' + o + ',' + p + '=parent[i];w[y]=' + o + ';w[i]=function(c,l){c="("+((typeof c === "function")?c.toString():"function(' + p + '){"+c+"}")+")(' + p + ');if(' + o + '){w[y]=' + o + ';}";var e=d.createElement("script");e.src=b(c);if(l){e.onload=l;};d.documentElement.appendChild(e);};parent[y]();';
+    var container = 'w=window,d=document,y="_"+i,b=' + blob.toString() + ',' + o + ',' + p + '=parent[i];w[y]=' + o + ';w[i]=function(c,l){c="("+((typeof c === "function")?c.toString():"function(' + p + '){"+c+"}")+")(' + p + ');if(' + o + '){w[y]=' + o + ';}";var e=d.createElement("script");e.src=b(c);if(l){e.onload=l;};d.documentElement.appendChild(e);};parent[y]();';
 
     // stop code execution
     var stop = function(id, i) {
