@@ -69,7 +69,11 @@ runner.exec(function(postMessage) {
 // receive function in container
 runner.exec(function(postMessage) {
     onmessage = function(fn) {
+
         fn(); // function passed from frontend
+
+        // pass a function back to UI
+        postMessage(function(x,y,z) { /* ... */ });
     }
 });
 
