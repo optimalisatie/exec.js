@@ -232,6 +232,6 @@ Google states the following in online documentation about the future.
 > 
 > https://www.chromium.org/developers/design-documents/process-models
 
-We've tested with Chrome 61.0.3159.5 (unstable) so it appears that multithreading will not become available to subframe-type iframes soon. Further testing may reveal a trick to do it however, which will unlock high performance multithreading in javascript without low performance WebWorkers. In Chrome 61 WebWorkers are as slow as in other versions with a startup latency of ~100ms on a 2016 Core M7 laptop.
+We've tested with Chrome 61.0.3159.5 (unstable) so it appears that multithreading will not become available to subframe-type iframes soon. Further testing may reveal a trick to do it however, which will unlock high performance multithreading in javascript without WebWorkers. In Chrome 61 WebWorkers are as slow as in other versions with a startup latency of ~100ms on a 2016 Core M7 laptop.
 
 We've tested with Chrome 61.0.3159.5 (unstable) so it appears that multithreading will not become available to subframe-type iframes soon. Further testing may reveal a trick to do it however, which will unlock high performance multithreading in javascript without low performance WebWorkers. In Chrome 61 WebWorkers are as slow as in other versions with a startup latency of ~100ms on a 2016 Core M7 laptop.
