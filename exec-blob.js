@@ -12,7 +12,7 @@
             fn();
         },
         f = document.createElement('iframe'),
-        pool = [];
+        pool = {};
 
     // event handler
     var e = 'EventListener',
@@ -45,6 +45,9 @@
             }
         } catch (e) {}
 
+        // retrieve sandbox configuration
+        var sandbox = i.sandbox;
+
         // remove container
         try {
             i.parentNode.removeChild(i);
@@ -61,24 +64,38 @@
 
             // add new container to pool
             if (pool.length < poolSize) {
-                node(documentElement);
+                node(documentElement, sandbox);
             }
         });
     }
 
     // create container node
-    var node = function(target) {
+    var node = function(target, sandbox) {
         var i = f.cloneNode(false);
         i.style.display = 'none';
+
+        // isolate container
+        if (sandbox) {
+            i.sandbox = sandbox + ' allow-same-origin allow-scripts';
+        }
+
         target.appendChild(i);
-        pool.push(i);
+
+        // add to pool
+        if (typeof pool[(sandbox) ? sandbox : 0] === 'undefined') {
+            pool[(sandbox) ? sandbox : 0] = [];
+        }
+        pool[(sandbox) ? sandbox : 0].push(i);
     }
 
     // default poolSize (max idle containers)
     var poolSize = 5;
 
     // constructor
-    var exec = function(code, onmessage) {
+    var exec = function(code, onmessage, sandbox) {
+
+        // isolate container
+        sandbox = sandbox = ((sandbox instanceof Array) ? ' ' + sandbox.join(' ') : false);
 
         // create container pool
         if (!(this instanceof exec)) {
@@ -87,7 +104,7 @@
             if (n > 0) {
                 var fragment = document.createDocumentFragment();
                 for (var x = 0; x < n; x++) {
-                    node(fragment);
+                    node(fragment, sandbox);
                 }
                 documentElement.appendChild(fragment);
             }
@@ -98,10 +115,9 @@
                 s, i, loaded, stopped, q = [];
 
             // get container from pool
-            while (!(i = pool.shift())) {
-
+            while (!(i = (pool[(sandbox) ? sandbox : 0] || []).shift())) {
                 // create container
-                node(documentElement);
+                node(documentElement, sandbox);
             }
 
             // initiate code execution container
@@ -177,6 +193,8 @@
             d.open();
             d.write('<script src="' + blob('var i="' + id + '",' + container) + '"></scr' + 'ipt>');
             d.close();
+
+            return this;
         }
     };
 

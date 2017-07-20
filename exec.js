@@ -1,6 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
- * @version 1.3.0
+ * @version 1.4.0
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -12,7 +12,7 @@
             fn();
         },
         f = document.createElement('iframe'),
-        pool = [];
+        pool = {};
 
     // stop code execution
     var stop = function(id, i) {
@@ -26,6 +26,9 @@
                 frm.stop();
             }
         } catch (e) {}
+
+        // retrieve sandbox configuration
+        var sandbox = i.sandbox;
 
         // remove container
         try {
@@ -42,7 +45,7 @@
 
             // add new container to pool
             if (pool.length < poolSize) {
-                node(documentElement);
+                node(documentElement, sandbox);
             }
         });
     }
@@ -56,18 +59,32 @@
     E = ((e[0] === 'attach' + E) ? 'on' : '') + 'message';
 
     // create container node
-    var node = function(target) {
+    var node = function(target, sandbox) {
         var i = f.cloneNode(false);
         i.style.display = 'none';
+
+        // isolate container
+        if (sandbox) {
+            i.sandbox = sandbox + ' allow-same-origin allow-scripts';
+        }
+
         target.appendChild(i);
-        pool.push(i);
+
+        // add to pool
+        if (typeof pool[(sandbox) ? sandbox : 0] === 'undefined') {
+            pool[(sandbox) ? sandbox : 0] = [];
+        }
+        pool[(sandbox) ? sandbox : 0].push(i);
     }
 
     // default poolSize (max idle containers)
     var poolSize = 5;
 
     // constructor
-    var exec = function(code, onmessage) {
+    var exec = function(code, onmessage, sandbox) {
+
+        // isolate container
+        sandbox = sandbox = ((sandbox instanceof Array) ? ' ' + sandbox.join(' ') : false);
 
         // create container pool
         if (!(this instanceof exec)) {
@@ -75,7 +92,7 @@
             if (pool.length < code) {
                 var fragment = document.createDocumentFragment();
                 for (var x = 0; x < code; x++) {
-                    node(fragment);
+                    node(fragment, sandbox);
                 }
                 documentElement.appendChild(fragment);
             }
@@ -86,10 +103,9 @@
                 s, i, stopped;
 
             // get container from pool
-            while (!(i = pool.shift())) {
-
+            while (!(i = (pool[(sandbox) ? sandbox : 0] || []).shift())) {
                 // create container
-                node(documentElement);
+                node(documentElement, sandbox);
             }
 
             // initiate code execution container
@@ -115,6 +131,7 @@
             // post data to container
             this.post = function() {
                 i.contentWindow[id].apply(this, arguments);
+                return this;
             }
 
             // message handler
@@ -133,12 +150,15 @@
             // execute code in container
             this.exec = function(code) {
                 i.contentWindow['e' + id](iife(code));
+                return this;
             }
 
             // execute code
             d.open();
             d.write('<script>(function() {var ' + o + ';var ' + p + '=parent["' + id + '"]||function(){};' + iife(code) + 'window["' + id + '"]=' + o + ';window["e' + id + '"]=function(code){(new Function("' + p + '","' + o + '",code + "if (' + o + ') {window[\'' + id + '\']=' + o + ';}"))(' + p + ',null);}})();</scr' + 'ipt>');
             d.close();
+
+            return this;
         }
     };
 
