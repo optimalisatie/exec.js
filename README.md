@@ -45,6 +45,12 @@ var runner = new exec('setInterval(function() {console.log("startup code")},200)
         console.info('response from container:', data);
     });
 
+// start code runner with security isolation
+var runner = new exec('setInterval(function() {console.log("startup code")},200);', 
+    function onmessage(data) {
+        console.info('response from container:', data);
+    },['allow-pointer-lock']);
+
 /* post data to container */
 runner.post('some data');
 
@@ -75,6 +81,13 @@ runner.exec(function(postMessage) {
 
 /* stop code execution */
 runner.stop(); // this will abruptly stop any code execution including unfinished promises
+
+/* chain */
+new exec('onmessage=function(data){console.log(data);}',null,['allow-pointer-lock'])
+    .post('test 1')
+    .post('test 2')
+    .exec('console.log("test 3");')
+    .stop();
 
 ```
 
