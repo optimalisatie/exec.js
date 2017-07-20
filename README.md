@@ -99,11 +99,11 @@ setTimeout(function() {
 },1000);
 ```
 
-### Multithreading with access to DOM
+### Access to DOM
 
-To access the DOM, use `parent.document` ([info](https://www.w3schools.com/jsref/prop_win_parent.asp)). DOM access is available in all browsers.
+To access the DOM, use `parent.document` ([info](https://www.w3schools.com/jsref/prop_win_parent.asp)). DOM access is available in all browsers. 
 
-Multithreading (OOPIF) is enabled by default in Chrome 55+ and some earlier versions of Chrome. Information about multithreading in Firefox and other browsers is unavailable. Testing is needed. 
+It is possible to isolate/block access to DOM and other specific privileges for the code to be executed. This would require a small modification of the code (see [sandbox](https://www.w3schools.com/tags/att_iframe_sandbox.asp)).
 
 ```javascript
 var runner = new exec('setInterval(function() {var h = parent.document.createElement(\'h1\');h.innerHTML = \'test\';parent.document.body.insertBefore(h, parent.document.body.firstChild);},100);');
@@ -203,7 +203,7 @@ setTimeout(function() {
 
 ```
 
-Abortable fetch requires a dedicated cancellable execution container per fetch request. Enhance performance when making many subsequent fetch requests by creating an exec.js container pool. The default pool size is 1.
+Abortable fetch requires a dedicated cancellable execution container per fetch request. Enhance performance when making many subsequent fetch requests by creating an exec.js container pool. 
 
 ```javascript
 // create container pool for performance
