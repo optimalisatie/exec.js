@@ -11,7 +11,7 @@ Table of contents
   * [Install](#install)
   * [Simple example](#simple-fetch-request)
   * [Abortable Fetch (extension)](#abortable-fetch)
-  * [Security / Code Isolation](#security--isolation)
+  * [Security / code isolation](#security--isolation)
   * [Performance](#performance)
   * [DOM access](#access-to-dom)
   * [Abort code execution](#abort--cancel-code-execution)
