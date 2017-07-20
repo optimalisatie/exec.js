@@ -36,9 +36,49 @@ Include `exec.js` in the HTML document.
 <script src="exec.min.js"></script>
 ```
 
-Use `var runner = new exec(your code);` to execute javascript code in an isolated container. You can provide the code as a string or as a function. It returns an object with the methods `runner.post()` to post data to the container and `runner.stop()` that instantly aborts execution and clears memory. 
+Use `var runner = new exec(your code);` to execute javascript code in an isolated container. You can provide the code as a string or as a function.
 
-You can return data from your code using the `postMessage(data)` function. You can receive data in the container by defining `onmessage`, e.g. `onmessage=function(e) { // e.data }`.
+```javascript
+// start code runner + define onmessage callback
+var runner = new exec('setInterval(function() {console.log("startup code")},200);', 
+    function onmessage(data) {
+        console.info('response from container:', data);
+    });
+
+/* post data to container */
+runner.post('some data');
+
+/* execute code in container */
+runner.exec('console.log("some other code");');
+
+/* redefine onmessage callback */
+runner.onmessage = function(data) {
+    console.info('response from container (redefined)',data);
+}
+
+/* redefine message handler in code execution container */
+runner.exec(function(postMessage) {
+    onmessage = function(data) {
+        postMessage("received " + data + " in container");
+    }
+});
+
+/* post function to container */
+runner.post(function() { /* ... */ });
+
+/* receive function in container */
+runner.exec(function(postMessage) {
+    onmessage = function(fn) {
+        fn(); // function passed from frontend
+    }
+});
+
+/* stop code execution */
+runner.stop(); // this will abruptly stop any code execution including unfinished promises
+
+```
+
+You can return data from your code using the `postMessage(data)` function. You can receive data in the container by defining `onmessage=function(e) { // e.data }` in the container.
 
 ### Simple Fetch request
 ```javascript
@@ -155,51 +195,6 @@ exec(code,onmessage,['allow-forms','allow-pointer-lock'])
 ```
 
 The `allow-scripts` and `allow-same-origin` parameters are enabled by default. Sandbox isolation is disabled by default.
-
-### On the fly code execution
-
-WebWorkers consist of fixed code and a communication mechanism with overhead. `exec.js` allows running code to be updated instantly.
-
-```javascript
-
-// start code runner + define onmessage callback
-var runner = new exec('setInterval(function() {console.log("startup code")},200);', 
-    function onmessage(data) {
-        console.info('response from container:', data);
-    });
-
-/* post data to container */
-runner.post('some data');
-
-/* execute code in container */
-runner.exec('console.log("some other code");');
-
-/* redefine onmessage callback */
-runner.onmessage = function(data) {
-    console.info('response from container (redefined)',data);
-}
-
-/* redefine message handler in code execution container */
-runner.exec(function(postMessage) {
-    onmessage = function(data) {
-        postMessage("received " + data + " in container");
-    }
-});
-
-/* post function to container */
-runner.post(function() { /* ... */ });
-
-/* receive function in container */
-runner.exec(function(postMessage) {
-    onmessage = function(fn) {
-        fn(); // function passed from frontend
-    }
-});
-
-/* stop code execution */
-runner.stop(); // this will abruptly stop any code execution including unfinished promises
-
-```
 
 ### Notes on multi-threading
 
