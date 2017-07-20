@@ -5,8 +5,8 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         meta: {
-            banner: '/*! Cancellable Javascript Code Runner v<%= pkg.version %>\n * @link https://github.com/optimalisatie/exec.js */\n',
-            bannerFetch: '/*! Cancellable Fetch (exec.js v<%= pkg.version %>)\n * @link https://github.com/optimalisatie/exec.js */\n'
+            banner: '/* Javascript Code Runner v<%= pkg.version %>\n * @link https://github.com/optimalisatie/exec.js */\n',
+            bannerFetch: '/* Abortable Fetch (exec.js v<%= pkg.version %>)\n * @link https://github.com/optimalisatie/exec.js */\n'
         },
 
         'closure-compiler': {
