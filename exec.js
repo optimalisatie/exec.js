@@ -8,9 +8,7 @@
     // container
     var c, document = window.document,
         documentElement = document.documentElement,
-        idleCallback = window.requestIdleCallback || function(fn) {
-            fn();
-        },
+        idleCallback = window.requestIdleCallback || setTimeout,
         f = document.createElement('iframe'),
         pool = {},
         e = 'EventListener',
