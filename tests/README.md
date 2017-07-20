@@ -12,4 +12,4 @@ In Chrome 60 Beta the WebWorker startup latency is still at ~100ms on a 2016 Cor
 
 ![WebWorker vs Exec.js Chrome 60](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/chrome-60.png)
 
-In Chrome 55+ `exec.js` may be executed in a separate thread (multithreading). Testing is needed. (see Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes)).
+In Chrome 55+ `exec.js` may be executed in a separate thread (multi-threading). (see [Notes on multi-threading](https://github.com/optimalisatie/exec.js#notes-on-multi-threading)).
