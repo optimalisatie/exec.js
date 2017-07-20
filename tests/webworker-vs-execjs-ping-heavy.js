@@ -1,5 +1,6 @@
-// more heavy workload used by both exec.js and WebWorker
-var PINGCODE = 'onmessage=function pong(){for (var i=0; i<999999;i++){var y = Math.pow(i,i);} var baseNumber = 3;var result = 0;for (var i = Math.pow(baseNumber, 10); i >= 0; i--) {result += Math.atan(i) * Math.tan(i);}; postMessage(y);}';
+// heavy workload used by both exec.js and WebWorker
+var PINGCODE = 'onmessage=function pong(){requestIdleCallback(function() {for (var i=0; i<999999;i++){var y = Math.pow(i,i);} var baseNumber = 3;var result = 0;for (var i = Math.pow(baseNumber, 10); i >= 0; i--) {result += Math.atan(i) * Math.tan(i);}; postMessage(y);});}';
+var PINGCODE_WEBWORKER = 'onmessage=function pong(){for (var i=0; i<999999;i++){var y = Math.pow(i,i);} var baseNumber = 3;var result = 0;for (var i = Math.pow(baseNumber, 10); i >= 0; i--) {result += Math.atan(i) * Math.tan(i);}; postMessage(y);}';
 
 // optionally, prepare exec.js for performance
 exec(1); // create pool with 1 container
@@ -55,13 +56,13 @@ var wwTest = function(oncomplete) {
 
     // try Blob API
     try {
-        blob = new Blob([PINGCODE], {
+        blob = new Blob([PINGCODE_WEBWORKER], {
             type: 'text/javascript'
         });
     } catch (e) { // Backwards-compatibility
         var BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
         blob = new BlobBuilder();
-        blob.append(PINGCODE);
+        blob.append(PINGCODE_WEBWORKER);
         blob = blob.getBlob('text/javascript');
     }
 
