@@ -59,8 +59,10 @@ runner.onmessage = function(data) {
 // post data to container
 runner.post('some data');
 
-// redefine message handler in code execution container
+// execute code in container
 runner.exec(function(postMessage) {
+
+    // reconfigure message handler
     onmessage = function(data) {
         postMessage("received " + data + " in container");
     }
@@ -69,7 +71,7 @@ runner.exec(function(postMessage) {
 // execute code in container
 runner.exec(function(postMessage) {
 
-    // reconfigure message handler
+    // reconfigure message handler to process functions
     onmessage = function(fn) {
 
         fn(); // function passed from UI
