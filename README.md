@@ -39,28 +39,25 @@ Include `exec.js` in the HTML document.
 Use `var runner = new exec(your code[, onmessage(function)][, sandbox(array)]);` to execute javascript code in an isolated container. You can provide the code as a string or as a function.
 
 ```javascript
-// start code runner + define onmessage callback
+// start code runner with onmessage callback
 var runner = new exec('setInterval(function() {console.log("startup code")},200);', 
     function onmessage(data) {
         console.info('response from container:', data);
     });
 
 // start code runner with security isolation
-var runner = new exec('setInterval(function() {console.log("startup code")},200);', 
-    function onmessage(data) {
-        console.info('response from container:', data);
-    },['allow-pointer-lock']);
-
-/* post data to container */
-runner.post('some data');
+var runner = new exec('setInterval(function() {console.log("secured code")},200);', null, ['allow-pointer-lock']);
 
 /* execute code in container */
-runner.exec('console.log("some other code");');
+runner.exec('console.log("some code");');
 
 /* redefine onmessage callback */
 runner.onmessage = function(data) {
     console.info('response from container (redefined)',data);
 }
+
+/* post data to container */
+runner.post('some data');
 
 /* redefine message handler in code execution container */
 runner.exec(function(postMessage) {
@@ -69,15 +66,15 @@ runner.exec(function(postMessage) {
     }
 });
 
-/* post function to container */
-runner.post(function() { /* ... */ });
-
 /* receive function in container */
 runner.exec(function(postMessage) {
     onmessage = function(fn) {
         fn(); // function passed from frontend
     }
 });
+
+/* post function to container */
+runner.post(function() { /* ... */ });
 
 /* stop code execution */
 runner.stop(); // this will abruptly stop any code execution including unfinished promises
