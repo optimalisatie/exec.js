@@ -205,3 +205,18 @@ fetch(url).catch(function(err){}).abort();
 fetch(url).catch(function(err){}).abort();
 console.timeEnd('abortable fetch with pool');
 ```
+
+
+### Notes on multi-threading
+
+After further testing, multithreading with much better performance than WebWorkers is possible, however, as it seems it can only be achieved by starting Google Chrome 55+ with the flag `--process-per-site`.
+
+We've tested using the iframe `sandbox` attribute, using `data:text/html;charset=utf-8,...`, `srcdoc=""` and Blob API. It appears that multithreading iframes ([OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes)) are only available when using the --process-per-site flag.
+
+Google states the following in online documentation about the future.
+
+> Subframes are **currently** rendered in the same process as their parent page. Although cross-site subframes do not have script access to their parents and could safely be rendered in a separate process, Chromium does not yet render them in their own processes. Similar to the first caveat, this means that pages from different sites may be rendered in the same process. **This will likely change in future versions of Chromium.**
+> 
+> https://www.chromium.org/developers/design-documents/process-models
+
+We've tested with Chrome 61.0.3159.5 (unstable) so it appears that multithreading will not become available to subframe-type iframes soon. Further testing may reveal a trick to do it however, which will unlock high performance multithreading in javascript without low performance WebWorkers. In Chrome 61 WebWorkers are as slow as in other versions with a startup latency of ~100ms on a 2016 Core M7 laptop.
