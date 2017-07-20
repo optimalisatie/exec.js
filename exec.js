@@ -1,6 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
- * @version 1.4.2
+ * @version 1.4.3
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -35,7 +35,7 @@
         } catch (e) {}
 
         // retrieve sandbox configuration
-        var sandbox = i.sandbox || 0;
+        var sandbox = i.getAttribute('sandbox') || 0;
 
         // remove container
         try {
@@ -51,7 +51,7 @@
             } catch (e) {}
 
             // add new container to pool
-            if (pool.length < poolSize) {
+            if (pool[sandbox].length < poolSize) {
                 node(documentElement, sandbox);
             }
         });
@@ -89,7 +89,7 @@
         // create container pool
         if (!(this instanceof exec)) {
             poolSize = code;
-            if (pool.length < code) {
+            if ((pool[sandbox] || []).length < code) {
                 var fragment = document.createDocumentFragment();
                 for (var x = 0; x < code; x++) {
                     node(fragment, sandbox);
