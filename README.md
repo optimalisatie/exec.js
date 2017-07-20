@@ -236,7 +236,9 @@ We've tested with Chrome 61.0.3159.5 (unstable) so it appears that multithreadin
 
 ### Multi-threading by requestIdleCallback?
 
-In Chrome 60 and 61 using `requestIdleCallback` makes it possible to use `exec.js` for non-blocking background computations with faster round trip performance than WebWorkers. In tests with a page with animated spinners (GIFs) there was no effect on the animations while the computations were processed by `exec.js` faster than a WebWorker. Further testing is needed.
+In Chrome 59/60+ and possibly Firefox 53+ using `requestIdleCallback` ([info](https://developer.mozilla.org/nl/docs/Web/API/Window/requestIdleCallback)) makes it possible to use `exec.js` for non-blocking background computations with faster round trip performance than WebWorkers. In tests with a page with animated spinners (GIFs) there was no effect on the animations while the computations were processed faster than in a WebWorker. Further testing is needed. 
+
+Is there a separate process involved with `requestIdleCallback`? Feedback/test results are apreciated.
 
 The following code can be used to test the solution that may provide multi-threading/non-blocking performance with no startup latency and up to 100x better round trip speed than WebWorkers.
 
