@@ -115,10 +115,10 @@ setTimeout(function() {
 It is possible to isolate the code to be executed and block access to DOM, navigation, alert windows/popups, form submission and other specific privileges by passing a third parameter with an array of [sandbox](https://www.w3schools.com/tags/att_iframe_sandbox.asp) parameters.
 
 ```javascript
-// enable isolation
+// enable code isolation
 exec(code,onmessage,[])
 
-// enable isolation with forms and API's enabled
+// enable code isolation with forms and API's enabled
 exec(code,onmessage,['allow-forms','allow-pointer-lock'])
 ```
 
