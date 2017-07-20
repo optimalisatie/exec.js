@@ -118,7 +118,7 @@ It is possible to isolate the code to be executed and block access to DOM, navig
 // enable all sandbox restrictions
 exec(code,onmessage,[])
 
-// enable forms and API's
+// enable isolation with forms and API's enabled
 exec(code,onmessage,['allow-forms','allow-pointer-lock'])
 ```
 
