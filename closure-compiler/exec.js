@@ -1,8 +1,9 @@
 /** @interface */
-window['exec'] = function(code, callback) {
+window['exec'] = function(code, onmessage) {
         this.post = function() {}
         this.stop = function() {}
         this.exec = function() {}
+        this.onmessage = function() {}
     }
     /** @interface */
 window['fetch'] = function() {}

@@ -1,6 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
- * @version 1.1.2
+ * @version 1.3.0
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -64,10 +64,10 @@
     }
 
     // default poolSize (max idle containers)
-    var poolSize = 10;
+    var poolSize = 5;
 
     // constructor
-    var exec = function(code, callback, poolSize) {
+    var exec = function(code, onmessage) {
 
         // create container pool
         if (!(this instanceof exec)) {
@@ -117,6 +117,14 @@
                 i.contentWindow[id].apply(this, arguments);
             }
 
+            // message handler
+            this.onmessage = onmessage;
+            window[id] = function() {
+                if (runner.onmessage) {
+                    runner.onmessage.apply(this, arguments);
+                }
+            };
+
             // convert to IIFE
             var iife = function(code) {
                 return '(' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') + ')(' + p + ');';
@@ -126,9 +134,6 @@
             this.exec = function(code) {
                 i.contentWindow['e' + id](iife(code));
             }
-
-            // process data posted from container
-            window[id] = callback;
 
             // execute code
             d.open();

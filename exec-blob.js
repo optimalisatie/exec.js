@@ -75,10 +75,10 @@
     }
 
     // default poolSize (max idle containers)
-    var poolSize = 10;
+    var poolSize = 5;
 
     // constructor
-    var exec = function(code, callback, poolSize) {
+    var exec = function(code, onmessage) {
 
         // create container pool
         if (!(this instanceof exec)) {
@@ -145,7 +145,12 @@
             }
 
             // message handler
-            window[id] = callback || function() {};
+            this.onmessage = onmessage;
+            window[id] = function() {
+                if (runner.onmessage) {
+                    runner.onmessage.apply(this, arguments);
+                }
+            };
 
             // container onload
             window['_' + id] = function() {
