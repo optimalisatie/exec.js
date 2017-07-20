@@ -70,7 +70,7 @@ runner.exec(function(postMessage) {
 runner.exec(function(postMessage) {
     onmessage = function(fn) {
 
-        fn(); // function passed from frontend
+        fn(); // function passed from UI
 
         // pass a function back to UI
         postMessage(function(x,y,z) { /* ... */ });
