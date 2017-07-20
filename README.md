@@ -170,7 +170,7 @@ Include `exec-fetch.js` (221 bytes) in the HTML document.
 <script src="exec-fetch.min.js"></script>
 ```
 
-The native [fetch](https://developers.google.com/web/updates/2015/03/introduction-to-fetch) API is now enhanced with a `.abort()` method.
+The native [fetch](https://developers.google.com/web/updates/2015/03/introduction-to-fetch) API is now enhanced with a `.abort()` method. **This is not a Polyfill.**
 
 ```javascript
 // normal fetch request
