@@ -118,7 +118,7 @@ It is possible to isolate the code to be executed and block access to DOM, navig
 
 ### On the fly code execution
 
-WebWorkers consist of fixed code and a communication mechanism with overhead. exec.js allows running code to be updated and communication handlers to be rewritten instantly.
+WebWorkers consist of fixed code and a communication mechanism with overhead. `exec.js` allows running code to be updated instantly.
 
 ```javascript
 var runner = new exec('setInterval(function() {console.log("startup code")},200);', 
