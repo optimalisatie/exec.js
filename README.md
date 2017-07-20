@@ -112,6 +112,10 @@ setTimeout(function() {
 },1000);
 ```
 
+### Security / isolation
+
+It is possible to isolate the code to be executed and block access to DOM and other specific privileges. This would require a small modification of the code (see [sandbox](https://www.w3schools.com/tags/att_iframe_sandbox.asp)).
+
 ### On the fly code execution
 
 WebWorkers consist of fixed code and a communication mechanism with overhead. exec.js allows running code to be updated and communication handlers to be rewritten instantly.
