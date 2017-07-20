@@ -1,7 +1,7 @@
 {
     "name": "exec.js",
     "title": "Cancellable and Isolated Javascript Code Runner",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "description": "A high performance and low latency javascript code runner that enables to isolate and abort javascript code execution, including setTimeout/setInterval, promises and Fetch requests. It supports most browsers including IE.",
     "homepage": "https://pagespeed.pro/",
     "copyright": "Copyright (C) 2017 PageSpeed.pro, Utrecht, NLD",
