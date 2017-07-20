@@ -5,12 +5,11 @@ The code is executed in an isolated container with full access to DOM and the ab
 
 In some modern browsers (Chrome 55+) the code may be executed in a separate thread (multithreading). (see Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes) and [Notes on multi-threading](https://github.com/optimalisatie/exec.js#notes-on-multi-threading)).
 
-
 Table of contents
 =================
 
   * [Install](#install)
-  * [Simple example (Fetch request)](#simple-fetch-request)
+  * [Simple example](#simple-fetch-request)
   * [Abortable Fetch (extension)](#abortable-fetch)
   * [Security / Code Isolation](#security--isolation)
   * [Non-blocking UI / multi-threading](#non-blocking-ui-by-using-requestidlecallback)
@@ -41,62 +40,26 @@ You can return data from your code using the `postMessage(data)` function. You c
 ### Simple Fetch request
 ```javascript
 var runner = new exec(function(postMessage) {
+
     fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js')
-        .then(function(response) {
-            response.text().then(function(text) {
-                postMessage(text);
-            });
-        }).catch(function(err) {
+        .then(postMessage)
+        .catch(function(err) {
             console.log(err.message);
         });
-}, function(data) {
-    console.log('fetch result', data.length);
+
+}, function(response) {
+
+    // process fetch response    
+    response.text().then(function(text) {
+        console.log('fetch result', text.length);
+    });
+    
 });
 
 // timeout in 5 seconds
 setTimeout(function() {
     runner.stop(); // cancel Fetch request
 },5000);
-```
-
-Fine tune the timeout to test Fetch request and/or response cancellation.
-
-![Cancelled Fetch API Request and Response](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/fetch-cancel.png)
-
-### Advanced Fetch request
-
-exec.js makes it possible to return original objects without the need for serialization, cloning or transferable objects.
-
-```javascript
-var runner = new exec(function(postMessage) {
-
-    // fetch url on demand
-    onmessage = function(url) {
-        fetch(url)
-            .then(postMessage)
-            .catch(function(err) {
-                console.log(err.message);
-            });
-    };
-}, function(response) {
-
-    console.info('fetch response', response);
-
-    // response text
-    response.text()
-        .then(function(text) {
-            console.info('fetch data', text.length);
-        });
-
-});
-
-// fetch URL
-runner.post('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js');
-
-// another fetch request in idle container
-setTimeout(function() {
-    runner.post('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');
-}, 1000);
 ```
 
 ### Abortable Fetch
@@ -127,6 +90,10 @@ setTimeout(function() {
 }, 10);
 
 ```
+
+Fine tune the timeout to test Fetch request and/or response cancellation.
+
+![Cancelled Fetch API Request and Response](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/fetch-cancel.png)
 
 Abortable fetch requires a dedicated cancellable execution container per fetch request. Enhance performance when making many subsequent fetch requests by creating an exec.js container pool. 
 
