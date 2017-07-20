@@ -98,11 +98,11 @@ Fine tune the timeout to test Fetch request and/or response cancellation.
 
 ![Cancelled Fetch API Request and Response](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/fetch-cancel.png)
 
-Abortable fetch requires a dedicated cancellable execution container per fetch request. Use a container pool to improve performance (see below).
+Abortable fetch requires a dedicated `exec.js` container per fetch request. Use a container pool to improve performance (see below).
 
 ### Performance
 
-Enhance the performance of `exec.js` when making subsequent/simultaneous requests by creating an exec.js container pool. [Code isolation](#security--isolation) configuration can be applied as a third parameter.
+Enhance the performance of `exec.js` when making subsequent/simultaneous requests by creating a container pool. [Code isolation](#security--isolation) can be applied as a third parameter.
 
 ```javascript
 // create container pool for performance
