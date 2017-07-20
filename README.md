@@ -121,7 +121,7 @@ var runner = new exec('setInterval(function() {console.log("startup code")},200)
     function onmessage(data) {
         console.info('response from container:', data);
     });
-    
+
 setTimeout(function() {
     runner.exec('console.log("some other code");');
 }, 100);
@@ -129,15 +129,21 @@ setTimeout(function() {
 setTimeout(function() {
 
     console.log('redefine "onmessage callback"');
+
+    /* runner.onmessage() */
     runner.onmessage = function(data) {
         console.info('response in redefined "onmessage callback"',data);
     }
 
     console.log("setup/redefine message handler");
+
+    /* runner.exec() */
     runner.exec('onmessage=function(data){postMessage("received "+data+" in container");}');
 
     // test message handler
     console.log("post some data to container");
+
+    /* runner.post() */
     runner.post('some data');
 
     setTimeout(function() {
