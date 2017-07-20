@@ -6,8 +6,6 @@ The test `webworker-vs-execjs-ping.js` compares the round trip time for a WebWor
 
 ![WebWorker vs Exec.js](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/webworker-vs-execjs-ping.png)
 
-In Chrome 60 Beta the WebWorker startup latency is still at ~100ms on a 2016 Core M7 laptop (the performance is worse than Chrome 57 on a 2012 Core i5) while the `exec.js` performance is enhanced greatly reaching speeds as fast as 0,001ms per round trip. Chrome 58 on the same laptop performs worse.
-
 <sup>Chrome Version 60.0.3112.72 (64-bit)</sup>
 
 ![WebWorker vs Exec.js Chrome 60](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/chrome-60.png)
