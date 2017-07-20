@@ -66,8 +66,10 @@ runner.exec(function(postMessage) {
     }
 });
 
-// receive function in container
+// execute code in container
 runner.exec(function(postMessage) {
+
+    // reconfigure message handler
     onmessage = function(fn) {
 
         fn(); // function passed from UI
