@@ -117,9 +117,11 @@ setTimeout(function() {
 WebWorkers consist of fixed code and a communication mechanism with overhead. exec.js allows running code to be updated and communication handlers to be rewritten instantly.
 
 ```javascript
-var runner = new exec('setInterval(function() {console.log("startup code")},200);', function onmessage(data) {
-    console.info('response from container:', data);
-});
+var runner = new exec('setInterval(function() {console.log("startup code")},200);', 
+    function onmessage(data) {
+        console.info('response from container:', data);
+    });
+    
 setTimeout(function() {
     runner.exec('console.log("some other code");');
 }, 100);
