@@ -3,7 +3,6 @@
  * @link https://github.com/optimalisatie/exec.js
  */
 
-// fetch extended with .abort() method
 (function(window) {
 
     // fetch not supported
@@ -11,6 +10,7 @@
         return;
     }
 
+    // fetch extended with .abort() method
     var abortableFetch = function(args) {
 
         // start fetch execution container
