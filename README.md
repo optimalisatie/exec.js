@@ -114,7 +114,7 @@ setTimeout(function() {
 
 ### Security / isolation
 
-It is possible to isolate the code to be executed and block access to DOM and other specific privileges. This would require a small modification of the code (see [sandbox](https://www.w3schools.com/tags/att_iframe_sandbox.asp)).
+It is possible to isolate the code to be executed and block access to DOM, navigation, alert windows/popups, form submission and other specific privileges. This would require a small modification of the code (see [sandbox](https://www.w3schools.com/tags/att_iframe_sandbox.asp)).
 
 ### On the fly code execution
 
@@ -177,7 +177,6 @@ setTimeout(function() {
 
 ```
 
-
 ### Abortable Fetch
 
 Include `exec-fetch.js` (221 bytes) in the HTML document.
@@ -222,7 +221,6 @@ fetch(url).catch(function(err){}).abort();
 fetch(url).catch(function(err){}).abort();
 console.timeEnd('abortable fetch with pool');
 ```
-
 
 ### Notes on multi-threading
 
