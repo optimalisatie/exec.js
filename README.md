@@ -100,11 +100,13 @@ Fine tune the timeout to test Fetch request and/or response cancellation.
 
 ### Performance
 
-Abortable fetch requires a dedicated cancellable execution container per fetch request. Enhance the performance of `exec.js` when making many subsequent fetch (or exec) requests by creating an exec.js container pool. 
+Abortable fetch requires a dedicated cancellable execution container per fetch request. Enhance the performance of `exec.js` when making many subsequent fetch (or exec) requests by creating an exec.js container pool. [Code isolation](#security--isolation) configuration can be applied as a third parameter.
 
 ```javascript
 // create container pool for performance
 exec(5);
+
+// exec(5,null,[]); // pool with code isolation enabled
 
 console.time('abortable fetch with pool');
 var url = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js';
