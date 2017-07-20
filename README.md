@@ -3,7 +3,7 @@
 
 The code is executed in an isolated container with full access to DOM and the ability to return functions and objects without serialization, cloning or the need for transferable objects. The speed is 10x better than a WebWorker (see [tests](https://github.com/optimalisatie/exec.js/tree/master/tests)).
 
-In some modern browsers (Chrome 55+) the code may be executed in a separate thread (multithreading). Testing is needed to find a solution. (see Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes) and [Notes on multi-threading](https://github.com/optimalisatie/exec.js#notes-on-multi-threading)).
+In some modern browsers (Chrome 55+) the code may be executed in a separate thread (multithreading). (see Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes) and [Notes on multi-threading](https://github.com/optimalisatie/exec.js#notes-on-multi-threading)).
 
 # Install
 
