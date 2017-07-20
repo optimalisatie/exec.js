@@ -12,6 +12,9 @@ Table of contents
   * [Simple example](#simple-fetch-request)
   * [Abortable Fetch (extension)](#abortable-fetch)
   * [Security / Code Isolation](#security--isolation)
+  * [Performance](#performance)
+  * [DOM access](#access-to-dom)
+  * [Abort code execution](#abort--cancel-code-execution)
   * [Non-blocking UI / multi-threading](#non-blocking-ui-by-using-requestidlecallback)
   * [Tests](/tests)
 
@@ -95,7 +98,9 @@ Fine tune the timeout to test Fetch request and/or response cancellation.
 
 ![Cancelled Fetch API Request and Response](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/fetch-cancel.png)
 
-Abortable fetch requires a dedicated cancellable execution container per fetch request. Enhance performance when making many subsequent fetch requests by creating an exec.js container pool. 
+### Performance
+
+Abortable fetch requires a dedicated cancellable execution container per fetch request. Enhance then performance of `exec.js` when making many subsequent fetch (or exec) requests by creating an exec.js container pool. 
 
 ```javascript
 // create container pool for performance
