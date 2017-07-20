@@ -242,7 +242,7 @@ In Chrome 59/60+ and possibly Firefox 53+ using `requestIdleCallback` ([info](ht
 
 ![WebWorker vs Exec.js Heavy Non-blocking UI](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/heavy-non-blocking-ui.png)
 
-Test page: https://giphy.com/search/supergirl
+Test page: https://giphy.com/search/multi-tasking
 
 The following code can be used to test non-blocking UI performance compared to a WebWorker. Use a page with animated GIFs to detect if the computations block the UI. (simply copy and paste the code in the console on a page).
 
