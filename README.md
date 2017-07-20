@@ -36,7 +36,7 @@ Include `exec.js` in the HTML document.
 <script src="exec.min.js"></script>
 ```
 
-Use `var runner = new exec(your code[, onmessage(function)][, sandbox(array)]);` to execute javascript code in an isolated container. You can provide the code as a string or as a function.
+Use `var runner = new exec(your code[, onmessage][, sandbox]);` to execute javascript code in an isolated container. You can provide the code as a string or as a function.
 
 ```javascript
 // start code runner with onmessage callback
