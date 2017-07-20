@@ -112,7 +112,7 @@ setTimeout(function() {
 
 ### Security / isolation
 
-It is possible to isolate the code to be executed and block access to DOM, navigation, alert windows/popups, form submission and other specific privileges by passing a third parameter to the `exec()` constructor with [sandbox](https://www.w3schools.com/tags/att_iframe_sandbox.asp) parameters.
+It is possible to isolate the code to be executed and block access to DOM, navigation, alert windows/popups, form submission and other specific privileges by passing a third parameter with an array of [sandbox](https://www.w3schools.com/tags/att_iframe_sandbox.asp) parameters.
 
 ```javascript
 // enable all sandbox restrictions
