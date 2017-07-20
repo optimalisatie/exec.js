@@ -235,9 +235,10 @@ Test page: https://giphy.com/search/multi-tasking
 The following code can be used to test non-blocking UI performance compared to a WebWorker. Use a page with animated GIFs to detect if the computations block the UI. (simply copy and paste the code in the console on a page).
 
 ```javascript
-// heavy workload for exec.js and WebWorker
-var PINGCODE = 'onmessage=function pong(){requestIdleCallback(function() {for (var i=0; i<999999;i++){var y = Math.pow(i,i);} var baseNumber = 3;var result = 0;for (var i = Math.pow(baseNumber, 10); i >= 0; i--) {result += Math.atan(i) * Math.tan(i);}; postMessage(y);});}';
-var PINGCODE_WEBWORKER = 'onmessage=function pong(){for (var i=0; i<999999;i++){var y = Math.pow(i,i);} var baseNumber = 3;var result = 0;for (var i = Math.pow(baseNumber, 10); i >= 0; i--) {result += Math.atan(i) * Math.tan(i);}; postMessage(y);}';
+// workload for exec.js and WebWorker
+var calculation = 'var result; for (var i=0; i<999999;i++){result = Math.pow(5,i);} for (var i = Math.pow(7, 10); i >= 0; i--) {result += Math.atan(i) * Math.tan(i);};';
+var PINGCODE = 'onmessage=function pong(){requestIdleCallback(function() {' + calculation + 'postMessage(result);});}';
+var PINGCODE_WEBWORKER = 'onmessage=function pong(){' + calculation + 'postMessage(result);}';
 
 // Full test code on https://github.com/optimalisatie/exec.js/blob/master/tests/webworker-vs-execjs-ping-heavy.js
 ```
