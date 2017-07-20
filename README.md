@@ -161,59 +161,43 @@ The `allow-scripts` and `allow-same-origin` parameters are enabled by default. S
 WebWorkers consist of fixed code and a communication mechanism with overhead. `exec.js` allows running code to be updated instantly.
 
 ```javascript
+
+// start code runner + define onmessage callback
 var runner = new exec('setInterval(function() {console.log("startup code")},200);', 
     function onmessage(data) {
         console.info('response from container:', data);
     });
 
-setTimeout(function() {
-    runner.exec('console.log("some other code");');
-}, 100);
+/* post data to container */
+runner.post('some data');
 
-setTimeout(function() {
+/* execute code in container */
+runner.exec('console.log("some other code");');
 
-    console.log('redefine "onmessage callback"');
+/* redefine onmessage callback */
+runner.onmessage = function(data) {
+    console.info('response from container (redefined)',data);
+}
 
-    /* runner.onmessage() */
-    runner.onmessage = function(data) {
-        console.info('response in redefined "onmessage callback"',data);
+/* redefine message handler in code execution container */
+runner.exec(function(postMessage) {
+    onmessage = function(data) {
+        postMessage("received " + data + " in container");
     }
+});
 
-    console.log("setup/redefine message handler");
+/* post function to container */
+runner.post(function() { /* ... */ });
 
-    /* runner.exec() */
-    runner.exec('onmessage=function(data){postMessage("received "+data+" in container");}');
+/* receive function in container */
+runner.exec(function(postMessage) {
+    onmessage = function(fn) {
+        fn(); // function passed from frontend
+    }
+});
 
-    // test message handler
-    console.log("post some data to container");
-
-    /* runner.post() */
-    runner.post('some data');
-
-    setTimeout(function() {
-
-        console.log("setup/redefine message handler with function");
-
-        runner.exec(function(postMessage) {
-            onmessage = function(data) {
-                postMessage("v2: received " + data + " in container");
-            }
-        });
-
-        // test message handler
-        console.log("post some data to container");
-        runner.post('some data 2');
-
-        setTimeout(function() {
-
-            console.log('stop');
-            runner.stop();
-
-        }, 1000);
-
-    }, 1000);
-
-}, 1000);
+/* stop code execution */
+runner.stop(); // this will abruptly stop any code execution including unfinished promises
 
 ```
 
