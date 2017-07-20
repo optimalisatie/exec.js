@@ -122,7 +122,7 @@ exec(code,onmessage,[])
 exec(code,onmessage,['allow-forms','allow-pointer-lock'])
 ```
 
-The `allow-scripts` and `allow-same-origin` parameters are required and enabled by default. Sandbox isolation is disabled by default.
+The `allow-scripts` and `allow-same-origin` parameters are enabled by default. Sandbox isolation is disabled by default.
 
 ### On the fly code execution
 
