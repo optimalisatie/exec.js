@@ -103,8 +103,6 @@ setTimeout(function() {
 
 To access the DOM, use `parent.document` ([info](https://www.w3schools.com/jsref/prop_win_parent.asp)). DOM access is available in all browsers. 
 
-It is possible to isolate/block access to DOM and other specific privileges for the code to be executed. This would require a small modification of the code (see [sandbox](https://www.w3schools.com/tags/att_iframe_sandbox.asp)).
-
 ```javascript
 var runner = new exec('setInterval(function() {var h = parent.document.createElement(\'h1\');h.innerHTML = \'test\';parent.document.body.insertBefore(h, parent.document.body.firstChild);},100);');
 setTimeout(function() {
