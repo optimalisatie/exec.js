@@ -100,7 +100,7 @@ Fine tune the timeout to test Fetch request and/or response cancellation.
 
 ### Performance
 
-Abortable fetch requires a dedicated cancellable execution container per fetch request. Enhance then performance of `exec.js` when making many subsequent fetch (or exec) requests by creating an exec.js container pool. 
+Abortable fetch requires a dedicated cancellable execution container per fetch request. Enhance the performance of `exec.js` when making many subsequent fetch (or exec) requests by creating an exec.js container pool. 
 
 ```javascript
 // create container pool for performance
