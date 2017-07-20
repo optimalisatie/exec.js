@@ -240,8 +240,6 @@ In Chrome 61 WebWorkers are still very slow with a startup latency of ~100ms on 
 
 In Chrome 59/60+ and possibly Firefox 53+ using `requestIdleCallback` ([info](https://developer.mozilla.org/nl/docs/Web/API/Window/requestIdleCallback)) makes it possible to use `exec.js` for non-blocking background computations with faster round trip performance than WebWorkers. In tests with a page with animated spinners (GIFs) there was no effect on the animations while the computations were processed faster than in a WebWorker. Further testing is needed. 
 
-Is there a separate process involved with `requestIdleCallback`? Feedback/test results are apreciated.
-
 The following code can be used to test the solution that may provide multi-threading/non-blocking performance with no startup latency and up to 100x better round trip speed than WebWorkers.
 
 ```javascript
