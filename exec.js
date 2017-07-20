@@ -67,6 +67,7 @@
             i.sandbox = sandbox + ' allow-same-origin allow-scripts';
         }
 
+        // add to DOM
         target.appendChild(i);
 
         // add to pool
@@ -96,13 +97,13 @@
                 documentElement.appendChild(fragment);
             }
         } else {
-
             var runner = this,
                 id = "_" + +new Date() + Math.random().toFixed(16).substring(2),
                 s, i, stopped;
 
             // get container from pool
             while (!(i = (pool[sandbox] || []).shift())) {
+
                 // create container
                 node(documentElement, sandbox);
             }
@@ -154,7 +155,7 @@
 
             // execute code
             d.open();
-            d.write('<script>var i=' + id + container + iife(code) + 'w[i]=' + o + ';</scr' + 'ipt>');
+            d.write('<script>var i="' + id + '"' + container + iife(code) + 'w[i]=' + o + ';</scr' + 'ipt>');
             d.close();
 
             return this;
