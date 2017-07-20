@@ -154,7 +154,7 @@
 
             // execute code
             d.open();
-            d.write('<script>var i="' + id + '"' + container + iife(code) + 'w[i]=' + o + ';</scr' + 'ipt>');
+            d.write('<script>var i=' + id + container + iife(code) + 'w[i]=' + o + ';</scr' + 'ipt>');
             d.close();
 
             return this;
