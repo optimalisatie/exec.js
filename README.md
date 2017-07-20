@@ -1,9 +1,20 @@
 # Cancellable Javascript Code Runner  [![npm version](https://badge.fury.io/js/exec.js.svg)](http://badge.fury.io/js/exec.js)
 `exec.js` (621 bytes) is a high performance and low latency javascript code runner that enables to isolate and abort javascript code execution, including setTimeout/setInterval, promises and Fetch requests. It supports all browsers.
 
-The code is executed in an isolated container with full access to DOM and the ability to return functions and objects without serialization, cloning or the need for transferable objects. The speed is 10x better than a WebWorker (see [tests](https://github.com/optimalisatie/exec.js/tree/master/tests)).
+The code is executed in an isolated container with full access to DOM and the ability to return functions and objects without serialization, cloning or the need for transferable objects. The speed is much better than a WebWorker (see [tests](https://github.com/optimalisatie/exec.js/tree/master/tests)).
 
 In some modern browsers (Chrome 55+) the code may be executed in a separate thread (multithreading). (see Chrome [OOPIF](https://www.chromium.org/developers/design-documents/oop-iframes) and [Notes on multi-threading](https://github.com/optimalisatie/exec.js#notes-on-multi-threading)).
+
+
+Table of contents
+=================
+
+  * [Install](#install)
+  * [Simple example (Fetch request)](#simple-fetch-request)
+  * [Abortable Fetch (extension)](#abortable-fetch)
+  * [Security / Code Isolation](#security--isolation)
+  * [Non-blocking UI / multi-threading](#non-blocking-ui-by-using-requestidlecallback)
+  * [Tests](/tests)
 
 # Install
 
@@ -86,6 +97,51 @@ runner.post('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.j
 setTimeout(function() {
     runner.post('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');
 }, 1000);
+```
+
+### Abortable Fetch
+
+Include `exec-fetch.js` (221 bytes) in the HTML document.
+
+```html
+<script src="exec.min.js"></script>
+<script src="exec-fetch.min.js"></script>
+```
+
+The native [fetch](https://developers.google.com/web/updates/2015/03/introduction-to-fetch) API is now enhanced with a `.abort()` method. **This is not a Polyfill.**
+
+```javascript
+// normal fetch request
+var request = fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js')
+    .then(function(response) {
+        response.text().then(function(text) {
+            console.log('response', text.length);
+        });
+    }).catch(function(err) {
+        console.log('err', err.message);
+    });
+
+// abort request after 10ms
+setTimeout(function() {
+    request.abort();
+}, 10);
+
+```
+
+Abortable fetch requires a dedicated cancellable execution container per fetch request. Enhance performance when making many subsequent fetch requests by creating an exec.js container pool. 
+
+```javascript
+// create container pool for performance
+exec(5);
+
+console.time('abortable fetch with pool');
+var url = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js';
+fetch(url).catch(function(err){}).abort();
+fetch(url).catch(function(err){}).abort();
+fetch(url).catch(function(err){}).abort();
+fetch(url).catch(function(err){}).abort();
+fetch(url).catch(function(err){}).abort();
+console.timeEnd('abortable fetch with pool');
 ```
 
 ### Abort / cancel code execution
@@ -183,51 +239,6 @@ setTimeout(function() {
 
 }, 1000);
 
-```
-
-### Abortable Fetch
-
-Include `exec-fetch.js` (221 bytes) in the HTML document.
-
-```html
-<script src="exec.min.js"></script>
-<script src="exec-fetch.min.js"></script>
-```
-
-The native [fetch](https://developers.google.com/web/updates/2015/03/introduction-to-fetch) API is now enhanced with a `.abort()` method. **This is not a Polyfill.**
-
-```javascript
-// normal fetch request
-var request = fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js')
-    .then(function(response) {
-        response.text().then(function(text) {
-            console.log('response', text.length);
-        });
-    }).catch(function(err) {
-        console.log('err', err.message);
-    });
-
-// abort request after 10ms
-setTimeout(function() {
-    request.abort();
-}, 10);
-
-```
-
-Abortable fetch requires a dedicated cancellable execution container per fetch request. Enhance performance when making many subsequent fetch requests by creating an exec.js container pool. 
-
-```javascript
-// create container pool for performance
-exec(5);
-
-console.time('abortable fetch with pool');
-var url = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js';
-fetch(url).catch(function(err){}).abort();
-fetch(url).catch(function(err){}).abort();
-fetch(url).catch(function(err){}).abort();
-fetch(url).catch(function(err){}).abort();
-fetch(url).catch(function(err){}).abort();
-console.timeEnd('abortable fetch with pool');
 ```
 
 ### Notes on multi-threading
