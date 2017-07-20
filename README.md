@@ -48,38 +48,38 @@ var runner = new exec('setInterval(function() {console.log("startup code")},200)
 // start code runner with security isolation
 var runner = new exec('setInterval(function() {console.log("secured code")},200);', null, ['allow-pointer-lock']);
 
-/* execute code in container */
+// execute code in container
 runner.exec('console.log("some code");');
 
-/* redefine onmessage callback */
+// redefine onmessage callback
 runner.onmessage = function(data) {
     console.info('response from container (redefined)',data);
 }
 
-/* post data to container */
+// post data to container
 runner.post('some data');
 
-/* redefine message handler in code execution container */
+// redefine message handler in code execution container
 runner.exec(function(postMessage) {
     onmessage = function(data) {
         postMessage("received " + data + " in container");
     }
 });
 
-/* receive function in container */
+// receive function in container
 runner.exec(function(postMessage) {
     onmessage = function(fn) {
         fn(); // function passed from frontend
     }
 });
 
-/* post function to container */
+// post function to container
 runner.post(function() { /* ... */ });
 
-/* stop code execution */
+// stop code execution
 runner.stop(); // this will abruptly stop any code execution including unfinished promises
 
-/* chain */
+// chain
 new exec('onmessage=function(data){console.log(data);}',null,['allow-pointer-lock'])
     .post('test 1')
     .post('test 2')
