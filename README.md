@@ -243,7 +243,7 @@ In Chrome 59/60+ and possibly Firefox 53+ using `requestIdleCallback` ([info](ht
 The following code can be used to test the solution that may provide multi-threading/non-blocking performance with no startup latency and up to 100x better round trip speed than WebWorkers.
 
 ```javascript
-//heavy workload for exec.js and WebWorker
+// heavy workload for exec.js and WebWorker
 var PINGCODE = 'onmessage=function pong(){requestIdleCallback(function() {for (var i=0; i<999999;i++){var y = Math.pow(i,i);} var baseNumber = 3;var result = 0;for (var i = Math.pow(baseNumber, 10); i >= 0; i--) {result += Math.atan(i) * Math.tan(i);}; postMessage(y);});}';
 var PINGCODE_WEBWORKER = 'onmessage=function pong(){for (var i=0; i<999999;i++){var y = Math.pow(i,i);} var baseNumber = 3;var result = 0;for (var i = Math.pow(baseNumber, 10); i >= 0; i--) {result += Math.atan(i) * Math.tan(i);}; postMessage(y);}';
 
