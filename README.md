@@ -214,7 +214,7 @@ new exec(code,onmessage,['allow-forms','allow-pointer-lock']);
 // enable code isolation and block loading of images, objects and media
 new exec(code,onmessage,[],{"img-src":"'none'","media-src":"'none'","object-src":"'none'"});
 
-// restrict resource access to domain without sandbox isolation
+// restrict resource access to domain without code isolation
 new exec(code,onmessage,null,{"default-src":"domain.com"});
 ```
 
