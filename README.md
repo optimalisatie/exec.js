@@ -49,7 +49,7 @@ var runner = new exec('setInterval(function() {console.log("startup code")},200)
     });
 
 // start code runner with security isolation
-var runner = new exec('console.log("secured code");',null,['allow-pointer-lock']);
+// var runner = new exec('console.log("secured code");',null,['allow-pointer-lock'],{"default-src": "domain.com","script-src":"'none'"});
 
 // execute code in container
 runner.exec('console.log("some code");');
