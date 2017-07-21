@@ -218,7 +218,7 @@ new exec(code,null,[],{"img-src":"'none'","media-src":"'none'","object-src":"'no
 new exec(code,null,null,{"default-src":"domain.com"});
 ```
 
-Code isolation is disabled by default. When enabled, the `allow-scripts` and `allow-same-origin` sandbox parameters are enabled by default. The CSP parameter `script-src: 'unsafe-eval'` is required to use the `.exec()` method.
+Code isolation is disabled by default. When enabled, the `allow-scripts` and `allow-same-origin` sandbox parameters are enabled by default. The CSP parameter `script-src: 'unsafe-eval'` is required to use the `runner.exec()` method.
 
 ### Notes on multi-threading
 
