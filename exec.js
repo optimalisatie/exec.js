@@ -1,6 +1,6 @@
 /**
  * Javascript Code Runner
- * @version 1.5.0
+ * @version 1.5.1
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
