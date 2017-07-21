@@ -1,6 +1,6 @@
 /**
  * Javascript Code Runner
- * @version 1.5.4
+ * @version 1.5.5
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -19,8 +19,13 @@
     e = window['add' + e] ? ['add' + e, 'remove' + e] : ['attach' + E, 'detach' + E];
     E = ((e[0] === 'attach' + E) ? 'on' : '') + 'message';
 
+    // convert to IIFE
+    var iife = function(code) {
+        return '(' + ((typeof code === 'function') ? code.toString() : 'function(postMessage){' + code + '}') + ')(postMessage);';
+    }
+
     // execution container
-    var container = ',w=window,d=document,r="_"+i,' + o + ',' + p + '=parent[i];window[r]=function(c){if(typeof c=="string"){c=new Function("' + p + '",c);}c.call(this,' + p + ');if(' + o + '){w[i]=' + o + ';}};';
+    var container = ',w=window,d=document,r="_"+i,' + o + ',f=' + iife.toString() + ',' + p + '=parent[i];window[r]=function(c){(new Function("' + p + '",f(c) + "if(' + o + '){w[i]=' + o + ';}"))(' + p + ');};';
 
     // stop code execution
     var stop = function(id, i) {
@@ -170,7 +175,7 @@
 
             // execute code
             d.open();
-            d.write(meta + '<script nonce=execjs>var i="' + id + '"' + container + '(' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') + ')(' + p + ');w[i]=' + o + ';</scr' + 'ipt>');
+            d.write(meta + '<script nonce=execjs>var i="' + id + '"' + container + iife(code) + 'w[i] = ' + o + ';</scr' + 'ipt>');
             d.close();
 
             return this;
