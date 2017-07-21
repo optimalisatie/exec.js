@@ -229,7 +229,7 @@ Code isolation is disabled by default. When enabled, the `allow-scripts` and `al
 
 ### Content Security Policy (CSP) Whitelist
 
-To whitelist `exec.js` add `script-src 'nonce-execjs'` to the Content-Security-Policy. To use the `runner.exec()` method with string code `script-src: 'unsafe-eval'` is required.
+To whitelist `exec.js` add `script-src 'nonce-execjs'` to the Content-Security-Policy. To use the `runner.exec()` method with string code, `script-src: 'unsafe-eval'` is required.
 
 ### Notes on multi-threading
 
