@@ -43,7 +43,7 @@ Use `var runner = new exec(code[, onmessage][, sandbox][, csp]);` to execute jav
 
 ```javascript
 // start code runner with onmessage callback
-var runner = new exec('setInterval(function() {console.log("startup code")},200);', 
+var runner = new exec('setInterval(function() {console.log("startup code")},200);onmessage=function(data){console.log("UI sent",data);};', 
     function onmessage(data) {
         console.info('response from container:', data);
     });
