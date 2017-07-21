@@ -11,7 +11,7 @@ Table of contents
   * [Install](#install)
   * [Simple example](#simple-fetch-request)
   * [Abortable Fetch (extension)](#abortable-fetch)
-  * [Security / code isolation](#security--isolation)
+  * [Security / code isolation](#security--code-isolation)
   * [Performance](#performance)
   * [DOM access](#access-to-dom)
   * [Abort code execution](#abort--cancel-code-execution)
@@ -160,7 +160,7 @@ Abortable fetch requires a dedicated `exec.js` container per fetch request. Use 
 
 ### Performance
 
-Enhance the performance of `exec.js` when making subsequent/simultaneous requests by creating a container pool. [Code isolation](#security--isolation) can be applied as a third parameter.
+Enhance the performance of `exec.js` when making subsequent/simultaneous requests by creating a container pool. [Code isolation](#security--code-isolation) can be applied as a third parameter.
 
 ```javascript
 // create container pool for performance
@@ -200,7 +200,7 @@ setTimeout(function() {
 },1000);
 ```
 
-### Security / isolation
+### Security / code isolation
 
 It is possible to isolate the code to be executed and block access to DOM, navigation, popups, form submission and other specific privileges by passing a third parameter with an array of [sandbox](https://www.w3schools.com/tags/att_iframe_sandbox.asp) parameters and/or a fourth parameter with [Content-Security-Policy](https://developers.google.com/web/fundamentals/security/csp/) (CSP) configuration.
 
