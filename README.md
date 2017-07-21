@@ -214,8 +214,8 @@ new exec(code,onmessage,['allow-forms','allow-pointer-lock']);
 // enable code isolation and block loading of images, objects and media
 new exec(code,onmessage,[],{"img-src":"'none'","media-src":"'none'","object-src":"'none'"});
 
-// enable code isolation and restrict resource access to domain
-new exec(code,onmessage,[],{"default-src":"domain.com"});
+// restrict resource access to domain without sandbox isolation
+new exec(code,onmessage,null,{"default-src":"domain.com"});
 ```
 
 The `allow-scripts` and `allow-same-origin` parameters are enabled by default. Sandbox isolation is disabled by default.
