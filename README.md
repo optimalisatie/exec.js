@@ -53,7 +53,7 @@ var runner = new exec('console.log("secured code");',null,['allow-pointer-lock']
 runner.exec('console.log("some code");');
 
 // redefine onmessage callback
-runner.on(function(data) {
+runner.on(function message(data) {
     console.info('response from container (redefined)',data);
 });
 
