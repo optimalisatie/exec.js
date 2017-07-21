@@ -218,7 +218,7 @@ new exec(code,onmessage,[],{"img-src":"'none'","media-src":"'none'","object-src"
 new exec(code,onmessage,null,{"default-src":"domain.com"});
 ```
 
-The `allow-scripts` and `allow-same-origin` parameters are enabled by default. Sandbox isolation is disabled by default.
+The `allow-scripts` and `allow-same-origin` sandbox parameters are enabled by default. Sandbox isolation is disabled by default.
 
 ### Notes on multi-threading
 
