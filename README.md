@@ -3,7 +3,7 @@
 
 The code is executed in an isolated container with fine grained restriction capabilities, access to DOM and the ability to return functions and objects without serialization or cloning. 
 
-The speed is much better than a WebWorker without blocking UI for some workloads (see [tests](https://github.com/optimalisatie/exec.js/tree/master/tests)).
+The speed is much better than a WebWorker without blocking UI for some workloads (see [tests](https://github.com/optimalisatie/exec.js/tree/master/tests)). The startup latency can be reduced to <1ms compared to ~100ms for a WebWorker.
 
 Table of contents
 =================
