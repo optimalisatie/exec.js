@@ -224,7 +224,10 @@ new exec(code,null,['allow-forms','allow-pointer-lock']);
 new exec(code,null,[],{"img-src":"'none'","media-src":"'none'","object-src":"'none'"});
 
 // restrict resource access to domain without code isolation
-new exec(code,null,null,{"default-src":"domain.com"});
+new exec(function(){
+    // test CSP using Fetch
+    fetch('https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js').catch(function(err) {});
+},null,null,{"default-src":"domain.com"});
 ```
 
 Code isolation is disabled by default. When enabled, the `allow-scripts` and `allow-same-origin` sandbox parameters are enabled by default. 
