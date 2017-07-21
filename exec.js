@@ -1,6 +1,6 @@
 /**
  * Javascript Code Runner
- * @version 1.5.2
+ * @version 1.5.3
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -19,7 +19,7 @@
     E = ((e[0] === 'attach' + E) ? 'on' : '') + 'message';
 
     // execution container
-    var container = ',w=window,d=document,r="_"+i,' + o + ',' + p + '=parent[i];window[r]=function(c){(new Function("' + p + '","' + o + '",c+"if(' + o + '){w[i]=' + o + ';}"))(' + p + ',null);};';
+    var container = ',w=window,d=document,r="_"+i,' + o + ',' + p + '=parent[i];window[r]=function(c){if(typeof c=="string"){c=(new Function("' + p + '",c))(' + p + ');}c.call(this,' + p + ');if(' + o + '){w[i]=' + o + ';}};';
 
     // stop code execution
     var stop = function(id, i) {
@@ -142,14 +142,9 @@
                 }
             };
 
-            // convert to IIFE
-            var iife = function(code) {
-                return '(' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') + ')(' + p + ');';
-            }
-
             // execute code in container
             this.exec = function(code) {
-                i.contentWindow['_' + id](iife(code));
+                i.contentWindow['_' + id](code);
                 return this;
             }
 
@@ -171,7 +166,7 @@
 
             // execute code
             d.open();
-            d.write(meta + '<script nonce=execjs>var i="' + id + '"' + container + iife(code) + 'w[i]=' + o + ';</scr' + 'ipt>');
+            d.write(meta + '<script nonce=execjs>var i="' + id + '"' + container + '(' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') + ')(' + p + ');w[i]=' + o + ';</scr' + 'ipt>');
             d.close();
 
             return this;

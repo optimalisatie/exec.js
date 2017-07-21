@@ -63,7 +63,8 @@ runner.post('some data');
 runner.exec(function(postMessage) {
 
     // reconfigure message handler
-    onmessage = function(data) {
+    // note: use this.onmessage in runner.exec(Function)
+    this.onmessage = function(data) {
         postMessage("received " + data + " in container");
     }
 });
@@ -72,7 +73,8 @@ runner.exec(function(postMessage) {
 runner.exec(function(postMessage) {
 
     // reconfigure message handler to process functions
-    onmessage = function(fn) {
+    // note: use this.onmessage in runner.exec(Function)
+    this.onmessage = function(fn) {
 
         fn(); // function passed from UI
 
