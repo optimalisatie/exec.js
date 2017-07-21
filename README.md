@@ -202,7 +202,7 @@ setTimeout(function() {
 
 ### Security / isolation
 
-It is possible to isolate the code to be executed and block access to DOM, navigation, popups, form submission and other specific privileges by passing a third parameter with an array of [sandbox](https://www.w3schools.com/tags/att_iframe_sandbox.asp) parameters and/or a fourth parameter with [Content-Security-Policy](https://developers.google.com/web/fundamentals/security/csp/) configuration.
+It is possible to isolate the code to be executed and block access to DOM, navigation, popups, form submission and other specific privileges by passing a third parameter with an array of [sandbox](https://www.w3schools.com/tags/att_iframe_sandbox.asp) parameters and/or a fourth parameter with [Content-Security-Policy](https://developers.google.com/web/fundamentals/security/csp/) (CSP) configuration.
 
 ```javascript
 // enable code isolation
