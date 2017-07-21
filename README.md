@@ -224,7 +224,7 @@ Code isolation is disabled by default. When enabled, the `allow-scripts` and `al
 
 ### Content Security Policy
 
-To enable `exec.js` add `script-src 'nonce-execjs'` to the Content-Security-Policy header. To use `runner.exec()` with string code `script-src: 'unsafe-eval'` is required.
+To whitelist `exec.js` add `script-src 'nonce-execjs'` to the Content-Security-Policy header. To use `runner.exec()` with string code `script-src: 'unsafe-eval'` is required.
 
 ### Notes on multi-threading
 
