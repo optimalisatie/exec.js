@@ -1,4 +1,5 @@
 // heavy workload used by both exec.js and WebWorker
+// requestIdleCallback to test non-blocking background task in new browsers
 var calculation = 'var result=0; for (var i = 999999; i >= 0; i--) {result += Math.atan(i) * Math.tan(i);};';
 var PINGCODE = 'onmessage=function pong(){requestIdleCallback(function() {' + calculation + 'postMessage(result);});}';
 var PINGCODE_WEBWORKER = 'onmessage=function pong(){' + calculation + 'postMessage(result);}';
