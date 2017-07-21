@@ -170,7 +170,7 @@
 
             // execute code
             d.open();
-            d.write(meta + '<script nonce=execjs>var i="' + id + '"' + container + 'w[r](' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') +');w[i]=' + o + ';</scr' + 'ipt>');
+            d.write(meta + '<script nonce=execjs>var i="' + id + '"' + container + 'w[r](' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') +');</scr' + 'ipt>');
             d.close();
 
             return this;
