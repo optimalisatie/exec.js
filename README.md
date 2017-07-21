@@ -1,7 +1,9 @@
 # Javascript Code Runner  [![npm version](https://badge.fury.io/js/exec.js.svg)](http://badge.fury.io/js/exec.js)
 `exec.js` (621 bytes) is a high performance and low latency javascript code runner that enables to isolate and abort javascript code execution, including setTimeout/setInterval, promises and Fetch requests. It supports all browsers.
 
-The code is executed in an isolated container with fine grained restriction capabilities, full access to DOM and the ability to return functions and objects without serialization or cloning (no overhead). The speed is much better than a WebWorker (see [tests](https://github.com/optimalisatie/exec.js/tree/master/tests)).
+The code is executed in an isolated container with fine grained restriction capabilities, access to DOM and the ability to return functions and objects without serialization or cloning. 
+
+The speed is much better than a WebWorker without blocking UI for some workloads (see [tests](https://github.com/optimalisatie/exec.js/tree/master/tests)).
 
 Table of contents
 =================
