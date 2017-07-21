@@ -220,9 +220,11 @@ new exec(code,null,[],{"img-src":"'none'","media-src":"'none'","object-src":"'no
 new exec(code,null,null,{"default-src":"domain.com"});
 ```
 
-Code isolation is disabled by default. When enabled, the `allow-scripts` and `allow-same-origin` sandbox parameters are enabled by default. The CSP parameter `script-src: 'unsafe-eval'` is required to use the `runner.exec()` method.
+Code isolation is disabled by default. When enabled, the `allow-scripts` and `allow-same-origin` sandbox parameters are enabled by default. 
 
-To enable `exec.js` with existing Content-Security-Policy configuration, add `'nonce-execjs'` to `script-src`.
+### Content Security Policy
+
+To enable `exec.js` add `script-src 'nonce-execjs'` to the Content-Security-Policy header. To use `runner.exec()` with string code `script-src: 'unsafe-eval'` is required.
 
 ### Notes on multi-threading
 
