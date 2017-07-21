@@ -1,6 +1,6 @@
 /**
  * Javascript Code Runner
- * @version 1.5.1
+ * @version 1.5.2
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -157,7 +157,7 @@
             if (csp) {
 
                 // enable default permissions for code execution container
-                csp['script-src'] = (csp['script-src'] || '') + " 'nonce-" + id + "'";
+                csp['script-src'] = (csp['script-src'] || '') + " 'nonce-execjs'";
 
                 // construct meta
                 meta = '<meta http-equiv=Content-Security-Policy content="';
@@ -171,7 +171,7 @@
 
             // execute code
             d.open();
-            d.write(meta + '<script nonce=' + id + '>var i="' + id + '"' + container + iife(code) + 'w[i]=' + o + ';</scr' + 'ipt>');
+            d.write(meta + '<script nonce=execjs>var i="' + id + '"' + container + iife(code) + 'w[i]=' + o + ';</scr' + 'ipt>');
             d.close();
 
             return this;

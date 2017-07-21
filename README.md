@@ -220,6 +220,8 @@ new exec(code,null,null,{"default-src":"domain.com"});
 
 Code isolation is disabled by default. When enabled, the `allow-scripts` and `allow-same-origin` sandbox parameters are enabled by default. The CSP parameter `script-src: 'unsafe-eval'` is required to use the `runner.exec()` method.
 
+To enable `exec.js` with existing Content-Security-Policy configuration, add `'nonce-execjs'` to `script-src`.
+
 ### Notes on multi-threading
 
 After further testing, multithreading with much better performance than WebWorkers is possible, however, as it seems it can only be achieved by starting Google Chrome 55+ with the flag `--process-per-site`.
