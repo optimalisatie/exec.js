@@ -257,7 +257,7 @@ The following code can be used to test non-blocking UI performance compared to a
 
 ```javascript
 // workload for exec.js and WebWorker
-var calculation = 'var result; for (var i=0; i<999999;i++){result = Math.pow(5,i);} for (var i = Math.pow(7, 10); i >= 0; i--) {result += Math.atan(i) * Math.tan(i);};';
+var calculation = 'var result=[],iterations = 50,multiplier = 1000000000;for (var i = 0; i < iterations; i++) { var candidate = i * (multiplier * Math.random()); var isPrime = true; for (var c = 2; c <= Math.sqrt(candidate); ++c) { if (candidate % c === 0) { isPrime = false; break; } } if (isPrime) {result.push(candidate);}}';
 var PINGCODE = 'onmessage=function pong(){requestIdleCallback(function() {' + calculation + 'postMessage(result);});}';
 var PINGCODE_WEBWORKER = 'onmessage=function pong(){' + calculation + 'postMessage(result);}';
 
