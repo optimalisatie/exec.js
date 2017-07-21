@@ -95,9 +95,10 @@ new exec('onmessage=function(data){console.log(data);}',null,['allow-pointer-loc
     .post('test 1')
     .post('test 2')
     .on(function(data) {
-        console.info('response:',data);
+        console.info('response from container:',data);
     })
-    .exec('postMessage("test post");')
+    .exec('console.log("test 3");')
+    .exec(function(postMessage){postMessage("post to UI");})
     .stop();
 
 ```
