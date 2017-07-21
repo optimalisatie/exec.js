@@ -202,14 +202,20 @@ setTimeout(function() {
 
 ### Security / isolation
 
-It is possible to isolate the code to be executed and block access to DOM, navigation, popups, form submission and other specific privileges by passing a third parameter with an array of [sandbox](https://www.w3schools.com/tags/att_iframe_sandbox.asp) parameters.
+It is possible to isolate the code to be executed and block access to DOM, navigation, popups, form submission and other specific privileges by passing a third parameter with an array of [sandbox](https://www.w3schools.com/tags/att_iframe_sandbox.asp) parameters and/or a fourth parameter with an object container [Content-Security-Policy]() configuration.
 
 ```javascript
 // enable code isolation
-exec(code,onmessage,[])
+new exec(code,onmessage,[])
 
 // enable code isolation with forms and API's enabled
-exec(code,onmessage,['allow-forms','allow-pointer-lock'])
+new exec(code,onmessage,['allow-forms','allow-pointer-lock']);
+
+// enable code isolation and block loading of images, objects and media
+new exec(code,onmessage,[],{"img-src":"'none'","media-src":"'none'","object-src":"'none'"});
+
+// enable code isolation and restrict resource access to domain
+new exec(code,onmessage,[],{"default-src":"domain.com"});
 ```
 
 The `allow-scripts` and `allow-same-origin` parameters are enabled by default. Sandbox isolation is disabled by default.

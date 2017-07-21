@@ -1,6 +1,6 @@
 /**
  * Cancellable Javascript Code Runner
- * @version 1.4.3
+ * @version 1.5.0
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -81,7 +81,7 @@
     var poolSize = 5;
 
     // constructor
-    var exec = function(code, onmessage, sandbox) {
+    var exec = function(code, onmessage, sandbox, csp) {
 
         // isolate container
         sandbox = sandbox = ((sandbox instanceof Array) ? ' ' + sandbox.join(' ') : 0);
@@ -99,7 +99,7 @@
         } else {
             var runner = this,
                 id = "_" + +new Date() + Math.random().toFixed(16).substring(2),
-                s, i, stopped;
+                s, i, stopped, meta = '';
 
             // get container from pool
             while (!(i = (pool[sandbox] || []).shift())) {
@@ -153,9 +153,25 @@
                 return this;
             }
 
+            // content security policy
+            if (csp) {
+
+                // enable default permissions for code execution container
+                csp['script-src'] = (csp['script-src'] || '') + " 'nonce-" + id + "' 'unsafe-eval'";
+
+                // construct meta
+                meta = '<meta http-equiv=Content-Security-Policy content="';
+                for (var rule in csp) {
+                    if (csp.hasOwnProperty(rule)) {
+                        meta += rule + ' ' + csp[rule] + ';';
+                    }
+                }
+                meta += '">'
+            }
+
             // execute code
             d.open();
-            d.write('<script>var i="' + id + '"' + container + iife(code) + 'w[i]=' + o + ';</scr' + 'ipt>');
+            d.write(meta + '<script nonce=' + id + '>var i="' + id + '"' + container + iife(code) + 'w[i]=' + o + ';</scr' + 'ipt>');
             d.close();
 
             return this;
