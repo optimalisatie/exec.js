@@ -1,6 +1,6 @@
 /**
  * Javascript Code Runner
- * @version 1.5.3
+ * @version 1.5.4
  * @link https://github.com/optimalisatie/exec.js
  */
 (function(window) {
@@ -11,6 +11,7 @@
         idleCallback = window.requestIdleCallback || setTimeout,
         f = document.createElement('iframe'),
         pool = {},
+        default_sandbox = 'allow-same-origin allow-scripts ',
         e = 'EventListener',
         E = 'Event',
         p = 'postMessage',
@@ -19,7 +20,7 @@
     E = ((e[0] === 'attach' + E) ? 'on' : '') + 'message';
 
     // execution container
-    var container = ',w=window,d=document,r="_"+i,' + o + ',' + p + '=parent[i];window[r]=function(c){if(typeof c=="string"){c=(new Function("' + p + '",c))(' + p + ');}c.call(this,' + p + ');if(' + o + '){w[i]=' + o + ';}};';
+    var container = ',w=window,d=document,r="_"+i,' + o + ',' + p + '=parent[i];window[r]=function(c){if(typeof c=="string"){c=new Function("' + p + '",c);}c.call(this,' + p + ');if(' + o + '){w[i]=' + o + ';}};';
 
     // stop code execution
     var stop = function(id, i) {
@@ -64,7 +65,7 @@
 
         // isolate container
         if (sandbox) {
-            i.sandbox = sandbox + ' allow-same-origin allow-scripts';
+            i.sandbox = sandbox;
         }
 
         // add to DOM
@@ -84,7 +85,7 @@
     var exec = function(code, onmessage, sandbox, csp) {
 
         // isolate container
-        sandbox = sandbox = ((sandbox instanceof Array) ? ' ' + sandbox.join(' ') : 0);
+        sandbox = sandbox = ((sandbox instanceof Array) ? default_sandbox + sandbox.join(' ') : 0);
 
         // create container pool
         if (!(this instanceof exec)) {
@@ -134,11 +135,14 @@
                 return this;
             }
 
-            // message handler
-            this.onmessage = onmessage;
+            // redefine message handler
+            this.on = function(fn) {
+                onmessage = fn;
+                return this;
+            }
             window[id] = function() {
-                if (runner.onmessage) {
-                    runner.onmessage.apply(this, arguments);
+                if (onmessage) {
+                    onmessage.apply(this, arguments);
                 }
             };
 

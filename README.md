@@ -53,9 +53,9 @@ var runner = new exec('console.log("secured code");',null,['allow-pointer-lock']
 runner.exec('console.log("some code");');
 
 // redefine onmessage callback
-runner.onmessage = function(data) {
+runner.on(function(data) {
     console.info('response from container (redefined)',data);
-}
+});
 
 // post data to container
 runner.post('some data');
@@ -94,7 +94,10 @@ runner.stop(); // this will abruptly stop any code execution including unfinishe
 new exec('onmessage=function(data){console.log(data);}',null,['allow-pointer-lock'])
     .post('test 1')
     .post('test 2')
-    .exec('console.log("test 3");')
+    .on(function(data) {
+        console.info('response:',data);
+    })
+    .exec('postMessage("test post");')
     .stop();
 
 ```

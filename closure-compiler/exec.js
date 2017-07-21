@@ -3,7 +3,7 @@ window['exec'] = function(code, onmessage) {
         this.post = function() {}
         this.stop = function() {}
         this.exec = function() {}
-        this.onmessage = function() {}
+        this.on = function() {}
     }
     /** @interface */
 window['fetch'] = function() {}
