@@ -222,9 +222,9 @@ new exec(code,null,null,{"default-src":"domain.com"});
 
 Code isolation is disabled by default. When enabled, the `allow-scripts` and `allow-same-origin` sandbox parameters are enabled by default. 
 
-### Content Security Policy
+### Content Security Policy (CSP) Whitelist
 
-To whitelist `exec.js` add `script-src 'nonce-execjs'` to the Content-Security-Policy header. To use `runner.exec()` with string code `script-src: 'unsafe-eval'` is required.
+To whitelist `exec.js` add `script-src 'nonce-execjs'` to the Content-Security-Policy. To use `runner.exec()` with string code `script-src: 'unsafe-eval'` is required.
 
 ### Notes on multi-threading
 
