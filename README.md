@@ -43,13 +43,13 @@ Use `var runner = new exec(code[, onmessage][, sandbox][, csp]);` to execute jav
 
 ```javascript
 // start code runner with onmessage callback
-var runner = new exec('setInterval(function() {console.log("startup code")},200);', 
+var runner = new exec('setInterval(function() {console.log("startup code")},200);onmessage=function(data){console.log("UI sent",data);};', 
     function onmessage(data) {
         console.info('response from container:', data);
     });
 
 // start code runner with security isolation
-var runner = new exec('console.log("secured code");',null,['allow-pointer-lock']);
+// var runner = new exec('console.log("secured code");',null,['allow-pointer-lock'],{"default-src": "domain.com","script-src":"'sha256-076c8f1ca6979ef156b510a121b69b6265011597557ca2971db5ad5a2743545f'"});
 
 // execute code in container
 runner.exec('console.log("some code");');
