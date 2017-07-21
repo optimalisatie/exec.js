@@ -157,7 +157,7 @@
             if (csp) {
 
                 // enable default permissions for code execution container
-                csp['script-src'] = (csp['script-src'] || '') + " 'nonce-" + id + "' 'unsafe-eval'";
+                csp['script-src'] = (csp['script-src'] || '') + " 'nonce-" + id + "'";
 
                 // construct meta
                 meta = '<meta http-equiv=Content-Security-Policy content="';
