@@ -5,6 +5,8 @@ The code is executed in an isolated container with fine grained restriction capa
 
 For some workloads, the javascript performance appears to be significantly better than a WebWorker in modern browsers, without blocking UI (see [tests](https://github.com/optimalisatie/exec.js/tree/master/tests)). The startup latency can be reduced to <1ms compared to ~100ms for a WebWorker.
 
+In modern/future browsers the code may be executed in a separate thread (see [Notes on multi-threading](#non-blocking-ui-by-using-requestidlecallback)).
+
 Table of contents
 =================
 
