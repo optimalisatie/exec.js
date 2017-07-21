@@ -209,13 +209,13 @@ It is possible to isolate the code to be executed and block access to DOM, navig
 new exec(code,onmessage,[])
 
 // enable code isolation with forms and API's enabled
-new exec(code,onmessage,['allow-forms','allow-pointer-lock']);
+new exec(code,,['allow-forms','allow-pointer-lock']);
 
 // enable code isolation and block loading of images, objects and media
-new exec(code,onmessage,[],{"img-src":"'none'","media-src":"'none'","object-src":"'none'"});
+new exec(code,,[],{"img-src":"'none'","media-src":"'none'","object-src":"'none'"});
 
 // restrict resource access to domain without code isolation
-new exec(code,onmessage,null,{"default-src":"domain.com"});
+new exec(code,,,{"default-src":"domain.com"});
 ```
 
 The `allow-scripts` and `allow-same-origin` sandbox parameters and the `script-src: 'unsafe-eval'` CSP parameter are enabled by default. Sandbox isolation and CSP are disabled by default.
