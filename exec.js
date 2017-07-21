@@ -20,7 +20,7 @@
     E = ((e[0] === 'attach' + E) ? 'on' : '') + 'message';
 
     // execution container
-    var container = ',w=window,d=document,r="_"+i,' + o + ',' + p + '=parent[i];w[r]=function(c){if(typeof c=="string"){c=new Function("' + p + '",c);}c.call(this,' + p + ');if(' + o + '){w[i]=' + o + ';}};';
+    var container = ',w=window,d=document,r="_"+i,' + o + ',' + p + '=parent[i];window[r]=function(c){if(typeof c=="string"){c=new Function("' + p + '",c);}c.call(this,' + p + ');if(' + o + '){w[i]=' + o + ';}};';
 
     // stop code execution
     var stop = function(id, i) {
@@ -170,7 +170,7 @@
 
             // execute code
             d.open();
-            d.write(meta + '<script nonce=execjs>var i="' + id + '"' + container + 'w[r](' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') +');</scr' + 'ipt>');
+            d.write(meta + '<script nonce=execjs>var i="' + id + '"' + container + '(' + ((typeof code === 'function') ? code.toString() : 'function(' + p + '){' + code + '}') + ')(' + p + ');w[i]=' + o + ';</scr' + 'ipt>');
             d.close();
 
             return this;
