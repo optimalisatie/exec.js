@@ -37,7 +37,7 @@ Include `exec.js` in the HTML document.
 <script src="exec.min.js"></script>
 ```
 
-Use `var runner = new exec(your code[, onmessage][, sandbox]);` to execute javascript code in an isolated container. You can provide the code as a string or as a function.
+Use `var runner = new exec(code[, onmessage][, sandbox][, csp]);` to execute javascript code in an isolated container. You can provide the code as a string or as a function.
 
 ```javascript
 // start code runner with onmessage callback
@@ -229,7 +229,7 @@ Code isolation is disabled by default. When enabled, the `allow-scripts` and `al
 
 ### Content Security Policy (CSP) Whitelist
 
-To whitelist `exec.js` add `script-src 'nonce-execjs'` to the Content-Security-Policy. To use `runner.exec()` with string code `script-src: 'unsafe-eval'` is required.
+To whitelist `exec.js` add `script-src 'nonce-execjs'` to the Content-Security-Policy. To use the `runner.exec()` method with string code `script-src: 'unsafe-eval'` is required.
 
 ### Notes on multi-threading
 
