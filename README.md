@@ -96,7 +96,7 @@ runner.stop(); // this will abruptly stop any code execution including unfinishe
 new exec('onmessage=function(data){console.log(data);}',null,['allow-pointer-lock'])
     .post('test 1')
     .post('test 2')
-    .on(function(data) {
+    .on(function message(data) {
         console.info('response from container:',data);
     })
     .exec('console.log("test 3");')
