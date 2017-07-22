@@ -66,8 +66,7 @@ runner.post('some data');
 runner.exec(function(postMessage) {
 
     // reconfigure message handler
-    // note: use this.onmessage in runner.exec(Function)
-    this.onmessage = function(data) {
+    onmessage = function(data) {
         postMessage("received " + data + " in container");
     }
 });
@@ -76,8 +75,7 @@ runner.exec(function(postMessage) {
 runner.exec(function(postMessage) {
 
     // reconfigure message handler to process functions
-    // note: use this.onmessage in runner.exec(Function)
-    this.onmessage = function(fn) {
+    onmessage = function(fn) {
 
         fn(); // function passed from UI
 
@@ -87,7 +85,7 @@ runner.exec(function(postMessage) {
 });
 
 // post function to container
-runner.post(function() { /* ... */ });
+runner.post(function() { console.log('test OK'); });
 
 // stop code execution
 runner.stop(); // this will abruptly stop any code execution including unfinished promises
