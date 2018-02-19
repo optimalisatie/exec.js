@@ -10,4 +10,4 @@ The test `webworker-vs-execjs-ping.js` compares the round trip time for a WebWor
 
 ![WebWorker vs Exec.js Chrome 60](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/chrome-60.png)
 
-In Chrome 55+ `exec.js` may be executed in a separate thread (multi-threading). (see [Notes on multi-threading](https://github.com/optimalisatie/exec.js#notes-on-multi-threading)).
+In Chrome 55+ `exec.js` may be executed in a separate thread (multi-threading). 
