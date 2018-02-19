@@ -233,36 +233,3 @@ Code isolation is disabled by default. When enabled, the `allow-scripts` and `al
 ### Content Security Policy (CSP) Whitelist
 
 To whitelist `exec.js` add `script-src 'nonce-execjs'` to the Content-Security-Policy. To use the `runner.exec()` method, `script-src: 'unsafe-eval'` is required.
-
-### Notes on multi-threading
-
-After further testing, multithreading with much better performance than WebWorkers is possible, however, as it seems it can only be achieved by starting Google Chrome 55+ with the flag `--process-per-site`.
-
-Google states the following in online documentation about the future.
-
-> Subframes are **currently** rendered in the same process as their parent page. Although cross-site subframes do not have script access to their parents and could safely be rendered in a separate process, Chromium does not yet render them in their own processes. Similar to the first caveat, this means that pages from different sites may be rendered in the same process. **This will likely change in future versions of Chromium.**
-> 
-> https://www.chromium.org/developers/design-documents/process-models
-
-We've tested with Chrome 61.0.3159.5 (unstable) so it appears that multi-threading will not become available to subframes soon.
-
-In Chrome 61 WebWorkers are still very slow with a startup latency of ~100ms on a 2016 Core M7 laptop.
-
-### Non-blocking UI by using requestIdleCallback
-
-In Chrome 60+ using `requestIdleCallback` ([info](https://developer.mozilla.org/nl/docs/Web/API/Window/requestIdleCallback)) makes it possible to use `exec.js` for non-blocking background computations with faster round trip performance than WebWorkers. In tests with a page with animated GIFs there was no effect on the animations while the computations were processed 30-40% faster than in a WebWorker, saving seconds. Further testing is needed. 
-
-![WebWorker vs Exec.js Heavy Non-blocking UI](https://raw.githubusercontent.com/optimalisatie/exec.js/master/tests/heavy-non-blocking-ui.png)
-
-Test page: https://giphy.com/search/multi-tasking
-
-The following code can be used to test non-blocking UI performance compared to a WebWorker. Use a page with animated GIFs to detect if the computations block the UI. (simply copy and paste the code in the console on a page).
-
-```javascript
-// workload for exec.js and WebWorker
-var calculation = 'var result=[],iterations = 50,multiplier = 1000000000;for (var i = 0; i < iterations; i++) { var candidate = i * (multiplier * Math.random()); var isPrime = true; for (var c = 2; c <= Math.sqrt(candidate); ++c) { if (candidate % c === 0) { isPrime = false; break; } } if (isPrime) {result.push(candidate);}}';
-var PINGCODE = 'onmessage=function pong(){requestIdleCallback(function() {' + calculation + 'postMessage(result);});}';
-var PINGCODE_WEBWORKER = 'onmessage=function pong(){' + calculation + 'postMessage(result);}';
-
-// Full test code on https://github.com/optimalisatie/exec.js/blob/master/tests/webworker-vs-execjs-ping-heavy.js
-```
