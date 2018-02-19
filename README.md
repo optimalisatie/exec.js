@@ -18,8 +18,6 @@ Table of contents
   * [DOM access](#access-to-dom)
   * [Abort code execution](#abort--cancel-code-execution)
   * [Content Security Policy (CSP) Whitelist](#content-security-policy-csp-whitelist)
-  * [Non-blocking UI / multi-threading](#non-blocking-ui-by-using-requestidlecallback)
-  * [Tests](/tests)
 
 # Install
 
