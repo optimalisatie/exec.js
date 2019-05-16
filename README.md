@@ -1,11 +1,11 @@
 # Javascript Code Runner  [![npm version](https://badge.fury.io/js/exec.js.svg)](http://badge.fury.io/js/exec.js)
-`exec.js` (922 bytes) is a high performance and low latency javascript code runner that enables to isolate and abort javascript code execution, including setTimeout/setInterval, promises and Fetch requests. It supports all browsers.
+`exec.js` (922 bytes) is a low latency javascript code runner that enables to isolate and abort javascript code execution, including setTimeout/setInterval, promises and Fetch requests. It supports all browsers.
 
 The code is executed in an isolated container with fine grained restriction capabilities, access to DOM and the ability to return functions and objects without serialization or cloning. 
 
-For some workloads, the javascript performance appears to be significantly better than a WebWorker in modern browsers, without blocking UI (see [tests](https://github.com/optimalisatie/exec.js/tree/master/tests)). The startup latency can be reduced to <1ms compared to ~100ms for a WebWorker.
+For some workloads, the javascript performance appears to be better than a WebWorker in modern browsers, without blocking UI (see [tests](https://github.com/optimalisatie/exec.js/tree/master/tests)). The startup latency can be reduced to <1ms compared to ~100ms for a WebWorker (2018).
 
-In modern/future browsers the code may be executed in a separate thread (see [Notes on multi-threading](#non-blocking-ui-by-using-requestidlecallback)).
+In future versions of Chrome `exec.js` may be executed in a separate thread (multi-threading), offering an advantage over Web Workers. For more information, see [Out-of-Process iframes](https://www.chromium.org/developers/design-documents/oop-iframes) (OOPIFs).
 
 Table of contents
 =================
